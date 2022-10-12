@@ -16,7 +16,7 @@ def signup():
         enc = conf_pwd.encode()
         hash1 = hashlib.md5(enc).hexdigest()
         
-        with open("credentials.txt", "w") as f:
+        with open("credentials", "w") as f:
             f.write(email + "\n")
             f.write(hash1)
             f.close()
@@ -31,7 +31,7 @@ def login():
      pwd = input("Enter password: ")
      auth = pwd.encode()
      auth_hash = hashlib.md5(auth).hexdigest()
-     with open("credentials.txt", "r") as f:
+     with open("credentials", "r") as f:
          stored_email, stored_pwd = f.read().split("\n")
      f.close()
      if email == stored_email and auth_hash == stored_pwd:
