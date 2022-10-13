@@ -1,20 +1,19 @@
 # Serverless Implementation of a login service
 # Login requires an email and password which is then hashed (MD5) and saved to a file
 
-# Original Code:
+# Login Code:
 # https://medium.com/@moinahmedbgbn/a-basic-login-system-with-python-746a64dc88d6
+# Email Regex Code
+# https://stackabuse.com/python-validate-email-address-with-regular-expressions-regex/
 
 import hashlib
 import re
 
-# Regex for email in the form of (String)@(String).(More than 2 characters)
+# Regex for email in the form of [ (String)@(String).(any 2 or more characters) ]
 regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
 def isValid(email):
-    if re.fullmatch(regex, email):
-      return True
-    else:
-      return False
+    return re.fullmatch(regex, email)
       
 def signup(email, pwd, conf_pwd):
     # TODO: Check if email is already registered
@@ -48,12 +47,13 @@ def login(email, pwd):
     else:
        print("Incorrect Email or Password \n")
 
+# Main Demo Loop
 while 1:
     print("********** Login System **********")
     print("1 : Sign Up")
     print("2 : Log in")
     print("3 : Exit")
-    # Throws ValueError
+    # TODO Catch ValueError
     ch = int(input("Enter your choice: "))
     if ch == 1:
         email = input("Enter email address: ")
