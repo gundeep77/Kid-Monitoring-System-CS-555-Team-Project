@@ -2,7 +2,6 @@
 
 import keyboard as kb
 from calendar import c
-import numpy as np
 import cv2
 
 """Display function to show our webcam footage. No arguments are passed. To display our webcam 
