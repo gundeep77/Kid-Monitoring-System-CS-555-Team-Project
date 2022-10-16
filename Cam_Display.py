@@ -1,8 +1,12 @@
 """This file will display our webcam footage. We must import cv2 for the display to work."""
-
+from datetime import datetime
+from main import camera_amount
 import keyboard as kb
 from calendar import c
+from datetime import datetime
+
 import cv2
+
 
 """Display function to show our webcam footage. No arguments are passed. To display our webcam 
 footage for our current selected camera simply pass display()."""
@@ -11,19 +15,25 @@ def display():
     #one webcam currently in service. For each successive webcam we will increment
     #the cv2.VideoCapture size.
     feed = cv2.VideoCapture(0)
-
+    
     while True:
         ret, display = feed.read()
         
-        #will dispaly our current webcam feed
-        cv2.imshow('Webcam',display)
+        #will display our current webcam feed with the current date and time in the 
+        #center of the window.
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(display,str(datetime.now()),(540,50), font, .5,(255,255,255),2,cv2.LINE_AA)
+        cv2.imshow('Webcam ',display)
         
         #if we want to exit our display before we reach the 100 milliseconds 
         #our waitKey function is set for we can simply press 'a' and it will
-        #stop our program.
+        #stop our program. Ideally, we would want this to be a GUI item to 
+        #close our program.
         if cv2.waitKey(100)==ord('a'):
             break
 
+        # if cv2.waitKey(100)==ord('a'):
+        #     break
     #this will release our resource so that another program can use our camera.
     feed.release()
     #when we exit the script we can destroy the windows
