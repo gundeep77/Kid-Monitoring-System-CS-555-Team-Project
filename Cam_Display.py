@@ -32,8 +32,6 @@ def display():
         if cv2.waitKey(100)==ord('a'):
             break
 
-        # if cv2.waitKey(100)==ord('a'):
-        #     break
     #this will release our resource so that another program can use our camera.
     feed.release()
     #when we exit the script we can destroy the windows
