@@ -7,7 +7,7 @@ import cv2
 """Display function to show our webcam footage. No arguments are passed. To display our webcam 
 footage for our current selected camera simply pass display()."""
 
-global NUMBER
+global  NUMBER
 NUMBER=0
 class Camera():
     def camera_amount():
