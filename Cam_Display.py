@@ -2,8 +2,6 @@
 from datetime import datetime
 from calendar import c
 from datetime import datetime
-
-
 import cv2
 
 
