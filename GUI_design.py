@@ -1,9 +1,4 @@
-from sqlite3 import Row
 from tkinter import *
-from turtle import heading
-from unittest import TextTestResult
-from PIL import ImageTk, Image
-from numpy import place
 
 root = Tk()
 
