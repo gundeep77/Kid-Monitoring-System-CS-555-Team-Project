@@ -20,28 +20,44 @@ class Camera():
             else:
                 cv2.destroyAllWindows()
                 return int(NUMBER)
+                
     def display(NUMBER):
         #this will be our initialized webcam feed starting from 0 because we only have
         #one webcam currently in service. For each successive webcam we will increment
         #the cv2.VideoCapture size.
         feed = cv2.VideoCapture(NUMBER)
+        disabledpngpath = r'camdisabled.png'
+        disabledpng = cv2.imread(disabledpngpath)
+        disabledpng = cv2.resize(disabledpng, (500,380))
+        
+        disableWebcam = False
         
         while True:
             ret, display = feed.read()
-            
+
             #will display our current webcam feed with the current date and time in the 
-            #center of the window.
-            cv2.rectangle(display, (525, 60), (800, 25), (0, 0, 0), -1)
+            #center of the window. 
+            cv2.rectangle(display, (525, 60), (800, 25), (0,0,0), -1)
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(display,str(datetime.now()),(540,50), font, .5,(500,255,255),1,cv2.LINE_AA)
-            cv2.imshow('Webcam '+str(NUMBER+1),display)
             
+            if(disableWebcam):
+                cv2.imshow('Webcam '+str(NUMBER+1), disabledpng)
+            else:
+                cv2.imshow('Webcam '+str(NUMBER+1), display)
+                    
             #if we want to exit our display before we reach the 100 milliseconds 
             #our waitKey function is set for we can simply press the SPACEBAR and it will
             #stop our program. Ideally, we would want this to be a GUI item to 
             #close our program.
             if cv2.waitKey(100)==32:
                 break
+            elif cv2.waitKey(20)==27:
+                if(disableWebcam):
+                    disableWebcam = False
+                else:
+                    disableWebcam = True
+                    
         #this will release our resource so that another program can use our camera.
         feed.release()
         #when we exit the script we can destroy the windows
