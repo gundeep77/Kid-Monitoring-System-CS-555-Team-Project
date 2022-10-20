@@ -28,7 +28,7 @@ class Camera():
         feed = cv2.VideoCapture(NUMBER)
         disabledpngpath = r'camdisabled.png'
         disabledpng = cv2.imread(disabledpngpath)
-        disabledpng = cv2.resize(disabledpng, (500,380))
+        disabledpng = cv2.resize(disabledpng, (500,390))
         
         disableWebcam = False
         
