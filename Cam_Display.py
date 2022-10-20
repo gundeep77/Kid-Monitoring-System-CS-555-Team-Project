@@ -52,11 +52,9 @@ class Camera():
             #close our program.
             if cv2.waitKey(100)==32:
                 break
-            elif cv2.waitKey(20)==27:
-                if(disableWebcam):
-                    disableWebcam = False
-                else:
-                    disableWebcam = True
+                
+            if cv2.waitKey(20)==27:
+                disableWebcam = 1 - disableWebcam
                     
         #this will release our resource so that another program can use our camera.
         feed.release()
