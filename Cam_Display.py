@@ -25,15 +25,25 @@ class Camera():
         #one webcam currently in service. For each successive webcam we will increment
         #the cv2.VideoCapture size.
         feed = cv2.VideoCapture(NUMBER)
-        
+        #this inner function will convert the video to a standard 480p resolution across
+        #all webcams that we have. Because most webcams these days on the market are a 
+        #minimum of 480p this is a good standard size resolution to have.
+        def make_480p(feed):
+            feed.set(3,640)
+            feed.set(4,480)
+
+        make_480p(feed)
+
         while True:
             ret, display = feed.read()
             
             #will display our current webcam feed with the current date and time in the 
             #center of the window.
-            cv2.rectangle(display, (525, 60), (800, 25), (0, 0, 0), -1)
+            #will display our current webcam feed with the current date and time in the 
+            #center of the window.
+            cv2.rectangle(display, (200, 60), (470, 25), (0, 0, 0), -1)
             font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(display,str(datetime.now()),(540,50), font, .5,(500,255,255),1,cv2.LINE_AA)
+            cv2.putText(display,str(datetime.now()),(210,50), font, .5,(390,255,255),1,cv2.LINE_AA)
             cv2.imshow('Webcam '+str(NUMBER+1),display)
             
             #if we want to exit our display before we reach the 100 milliseconds 
