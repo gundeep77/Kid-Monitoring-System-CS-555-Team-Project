@@ -9,7 +9,7 @@ footage for our current selected camera simply pass display()."""
 
 global  NUMBER
 NUMBER=0
-class Camera():
+class Camera:
     def camera_amount():
         '''Returns int value of available camera devices connected to the host device'''
         while True:
