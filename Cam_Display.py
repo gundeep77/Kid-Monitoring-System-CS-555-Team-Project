@@ -48,9 +48,9 @@ class Camera():
             
             #will display our current webcam feed with the current date and time in the 
             #center of the window.
-            cv2.rectangle(display, (200, 60), (470, 25), (0, 0, 0), -1)
+            cv2.rectangle(display, (195, 32), (427, 12), (0, 0, 0), -1)
             font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(display,str(datetime.now()),(210,50), font, .5,(390,255,255),1,cv2.LINE_AA)
+            cv2.putText(display,str(datetime.now()),(210,25), font, .4,(390,255,255),1,cv2.LINE_AA)
             
             if(disableWebcam):
                 cv2.imshow('Webcam '+str(NUMBER+1), disabledpng)
