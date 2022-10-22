@@ -11,16 +11,17 @@ NUMBER=0
 class Camera:
     def check_cam(NUMBER):
         cam = cv2.VideoCapture(NUMBER) 
-        if not cam.isOpened():
-            print('Warning! Camera '+ str(NUMBER)+" is unavailable.")
-            return False
-        else:
+        if cam.isOpened():
+            print("Camera Recording.")
             return True
+        else:
+            return False
 
                 
     def live_feed(NUMBER):
         if not Camera.check_cam(NUMBER):
-            return Camera.check_cam(NUMBER)
+            print("Warning: Feed unavailable. \nReason: Camera " + str(NUMBER) + " is not found.")
+            return
         """Display function to show our webcam footage. No arguments are passed. To display our webcam 
         footage for our current selected camera simply pass display()."""
         #this will be our initialized webcam feed starting from 0 because we only have
@@ -41,7 +42,7 @@ class Camera:
             feed.set(4,480)
 
         make_480p(feed)
-        out = cv2.VideoWriter(filename, cv2.VideoWriter_fourcc('m','p','4','v'), 12, (640,480))
+        out = cv2.VideoWriter(filename, cv2.VideoWriter_fourcc('m','p','4','v'), 10, (640,480))
         while True:
             ret, display = feed.read()
             
@@ -71,12 +72,13 @@ class Camera:
         
         #when we exit the script we can destroy the windows
         cv2.destroyAllWindows()   
-
+        
 
 #this will run our display
 if __name__ =="__main__":
+    #print(Camera.live_feed(NUMBER))
     Camera.live_feed(0)
-    Camera.live_feed(5)
+    Camera.live_feed(1)
     
 
 
