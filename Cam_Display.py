@@ -12,7 +12,7 @@ class Camera:
     def check_cam(NUMBER):
         cam = cv2.VideoCapture(NUMBER) 
         if cam.isOpened():
-            print("Camera Recording.")
+            print("Camera Recording...")
             return True
         else:
             return False
@@ -62,11 +62,13 @@ class Camera:
             #stop our program. Ideally, we would want this to be a GUI item to 
             #close our program.
             if cv2.waitKey(100)==32:
+                print("Recording Finished.")
                 break
             
             if cv2.waitKey(20)==27:
                 disableWebcam = 1 - disableWebcam            
         #this will release our resource so that another program can use our camera.
+
         out.release()
         feed.release()
         
@@ -77,7 +79,6 @@ class Camera:
 #this will run our display
 if __name__ =="__main__":
     #print(Camera.live_feed(NUMBER))
-    Camera.live_feed(0)
     Camera.live_feed(1)
     
 
