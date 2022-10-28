@@ -7,6 +7,7 @@
 # https://stackabuse.com/python-validate-email-address-with-regular-expressions-regex/
 
 import hashlib
+import sqlite3
 import re
 
 # Regex for email in the form of [ (String)@(String).(any 2 or more characters) ]
@@ -15,14 +16,19 @@ regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{
 def isValid(email):
     return re.fullmatch(regex, email)
                
-def login(email, pwd):
-    auth = pwd.encode()
+def login(email,password):
+
+    auth = password.encode()
     auth_hash = hashlib.md5(auth).hexdigest()
-    # TODO: Catch FileNotFoundError
-    with open("credentials", "r") as f:
-       stored_email, stored_pwd = f.read().split("\n")
-       f.close()
-    if email == stored_email and auth_hash == stored_pwd:
-       print("Logged in Successfully!")
+    db = sqlite3.connect("userdata.db")
+
+    cursor = db.cursor()
+
+    statement = f"SELECT email from credentials WHERE email = '{email}' and password = '{auth_hash}'"
+    cursor.execute(statement)
+
+    if not cursor.fetchone():
+            print("Login failed")
     else:
-       print("Incorrect Email or Password \n")
+        # 2FA must be added here. If it passes print msg below else print login failed
+            print("Welcome")
