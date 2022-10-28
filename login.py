@@ -8,14 +8,8 @@
 
 import hashlib
 import sqlite3
-import re
 
-# Regex for email in the form of [ (String)@(String).(any 2 or more characters) ]
-regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
-def isValid(email):
-    return re.fullmatch(regex, email)
-               
 def login(email,password):
 
     auth = password.encode()
