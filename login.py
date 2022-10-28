@@ -14,27 +14,7 @@ regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{
 
 def isValid(email):
     return re.fullmatch(regex, email)
-      
-def signup(email, pwd, conf_pwd):
-    # TODO: Check if email is already registered
-    if isValid(email):
-        if conf_pwd == pwd:
-            enc = conf_pwd.encode()
-            hash1 = hashlib.md5(enc).hexdigest()
-            
-            with open("credentials", "w") as f:
-                f.write(email + "\n")
-                f.write(hash1)
-                f.close()
-                
-            print("Login Created")
-        
-        else:
-            print("Passwords do not match \n")
-    
-    else:
-        print("Invalid Email")
-         
+               
 def login(email, pwd):
     auth = pwd.encode()
     auth_hash = hashlib.md5(auth).hexdigest()
@@ -46,27 +26,3 @@ def login(email, pwd):
        print("Logged in Successfully!")
     else:
        print("Incorrect Email or Password \n")
-
-# Main Demo Loop
-while 1:
-    print("********** Login System **********")
-    print("1 : Sign Up")
-    print("2 : Log in")
-    print("3 : Exit")
-    # TODO Catch ValueError
-    ch = int(input("Enter your choice: "))
-    if ch == 1:
-        email = input("Enter email address: ")
-        pwd = input("Enter password: ")
-        conf_pwd = input("Confirm password: ")
-        
-        signup(email, pwd, conf_pwd)
-    elif ch == 2:
-        email = input("Enter email: ")
-        pwd = input("Enter password: ")
-        
-        login(email, pwd)
-    elif ch == 3:
-        break
-    else:
-        print("Unknown Input")
