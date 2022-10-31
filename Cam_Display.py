@@ -1,26 +1,25 @@
 """This file will display our webcam footage. We must import cv2 for the display to work."""
 from datetime import datetime
-from calendar import c
 import cv2
-
-
+import tkinter.messagebox as tmsg
 
 filename = str(datetime.now())+'.mp4'
 global  NUMBER
 NUMBER=0
+
 class Camera:
-    def check_cam(NUMBER):
+    def check_cam(self, NUMBER):
         cam = cv2.VideoCapture(NUMBER) 
         if cam.isOpened():
-            print("Camera Recording...")
+            # print("Camera Recording...")
             return True
         else:
             return False
-
                 
-    def live_feed(NUMBER):
-        if not Camera.check_cam(NUMBER):
-            print("Warning: Feed unavailable. \nReason: Camera " + str(NUMBER) + " is not found.")
+    def live_feed(self, NUMBER):
+        if not self.check_cam(NUMBER):
+            # print("Warning: Feed unavailable. \nReason: Camera " + str(NUMBER) + " is not found.")
+            tmsg.showinfo(message="Cannot access camera! Please grant permission and sign in again!")
             return
         """Display function to show our webcam footage. No arguments are passed. To display our webcam 
         footage for our current selected camera simply pass display()."""
@@ -62,7 +61,7 @@ class Camera:
             #stop our program. Ideally, we would want this to be a GUI item to 
             #close our program.
             if cv2.waitKey(100)==32:
-                print("Recording Finished.")
+                tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
                 break
             
             if cv2.waitKey(20)==27:
@@ -73,17 +72,4 @@ class Camera:
         feed.release()
         
         #when we exit the script we can destroy the windows
-        cv2.destroyAllWindows()   
-        
-
-#this will run our display
-if __name__ =="__main__":
-    #print(Camera.live_feed(NUMBER))
-    Camera.live_feed(1)
-    
-
-
-
-    
-
-
+        cv2.destroyAllWindows()

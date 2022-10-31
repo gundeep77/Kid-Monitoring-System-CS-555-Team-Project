@@ -1,46 +1,142 @@
-from tkinter import *
+from tkinter import Tk, Label, Frame, PhotoImage, StringVar, IntVar, SUNKEN, Entry, Button, Checkbutton, Menu, mainloop
+import tkinter.messagebox as tmsg
+import sqlite3
+from account_creation import register_user
+from login import login
+from Cam_Display import Camera, NUMBER
 
 root = Tk()
 
 root.title("Baby Monitoring System")
-root.geometry("700x500")
+window_width = 700
+window_height = 500
+root.geometry(f"{window_width}x{window_height}")
+root.maxsize(window_width, window_height)
+root.minsize(window_width, window_height)
 
+# establishing db connection
+db = sqlite3.connect ("userdata.db")
+cursor = db.cursor() 
 
-def get_values():
-    print(f"Username is {user_entry.get()}")
-    print(f"Password is {pass_entry.get()}")
+def create_connection(db_file):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+    except:
+        tmsg.showinfo(message = "Could not establish connection to the database!")
+    return conn
 
+def submit_new_user_details():
+    if email_signup_value.get() != None and pass_signup_value.get() != None and phone_number_value.get() != None and confirmation_value.get():
+        if pass_signup_value.get() == confirm_pass_signup_value.get():
+            register_user_return = register_user(email_signup_value.get(), phone_number_value.get(), pass_signup_value.get(), confirm_pass_signup_value.get())
+            if register_user_return == 1:
+                email_signup_entry.delete(0, "end")
+                phone_number_entry.delete(0, "end")
+                pass_signup_entry.delete(0, "end")
+                confirm_pass_signup_entry.delete(0, "end")
+            elif register_user_return == 0:
+                return
+    else:
+        tmsg.showinfo(message='Please fill in all the details and check "I agree"!')
 
-photo = PhotoImage(file="child.png")
+def signin_function ():
+    if email_value.get() != None and pass_value.get() != None:
+        login_return = login(email_value.get(), pass_value.get())
+        if login_return == 1:
+            email_entry.delete(0, "end")
+            pass_entry.delete(0, "end")
+            session = Camera()
+            session.live_feed(NUMBER)
+    else:
+        tmsg.showinfo(message='Incorrect credentials!')
+
+def about_menu ():
+    tmsg.showinfo(message="This is application for monitoring your kid at home directly through your webcam!")
+
+photo = PhotoImage(file="child_monitor.png")
 bg_label = Label(root, image=photo)
 bg_label.place(x=0, y=0)
 
 heading_frame = Frame(root, borderwidth=4, relief=SUNKEN)
-heading_frame.place(x=320, y=150)
-heading_text = Label(heading_frame, text="Welcome to Baby Monitoring System!\nPlease sign in here:",
+heading_frame.place(x=320, y=50)
+heading_text = Label(heading_frame, text="Welcome to Baby Monitoring System!",
                      fg="yellow", font="comicsansms 16 bold", bg="brown")
 heading_text.grid()
 
-login_frame = Frame(root, borderwidth=6)
-login_frame.place(x=320, y=250)
+# sign in
+signin_text = Label(root, text="Please sign in here:", fg="yellow")
+signin_text.place(x=320, y=118)
 
-user_label = Label(login_frame, text="Username:")
-user_label.grid(row=0, column=0)
+login_frame = Frame(root, borderwidth=6, relief=SUNKEN)
+login_frame.place(x=320, y=138)
+
+email_label = Label(login_frame, text="Email:")
+email_label.grid(row=0, column=0)
 
 password_label = Label(login_frame, text="Password:")
 password_label.grid(row=1, column=0)
 
-user_value = StringVar()
+email_value = StringVar()
 pass_value = StringVar()
 
-user_entry = Entry(login_frame, textvariable=user_value)
-user_entry.grid(row=0, column=1)
+email_entry = Entry(login_frame, textvariable=email_value)
+email_entry.grid(row=0, column=1)
 
 pass_entry = Entry(login_frame, show='*', textvariable=pass_value)
 pass_entry.grid(row=1, column=1)
 
-
-submit_button = Button(login_frame, text="Submit", command=get_values)
+submit_button = Button(login_frame, text="Start Recording", command=signin_function)
 submit_button.grid(row=2, column=0)
+
+# signup
+signup_text = Label(root, text="Please sign up here if you don't have an account:", fg="yellow")
+signup_text.place(x=320, y=270)
+signup_frame = Frame(root, borderwidth=6, relief=SUNKEN)
+signup_frame.place(x=320, y=290)
+
+email_signup_label = Label(signup_frame, text="Email:")
+email_signup_label.grid(row=3, column=0)
+
+phone_number_label = Label(signup_frame, text="Phone Number:\ne.g.: (551) 432-1234")
+phone_number_label.grid(row=4, column=0)
+
+password_signup_label = Label(signup_frame, text="Password:\n(Min 8 Characters)")
+password_signup_label.grid(row=5, column=0)
+
+confirm_pass_signup_label = Label(signup_frame, text="Confirm Password:")
+confirm_pass_signup_label.grid(row=6, column=0)
+
+email_signup_value = StringVar()
+phone_number_value = StringVar()
+pass_signup_value = StringVar()
+confirm_pass_signup_value = StringVar()
+confirmation_value = IntVar()
+
+email_signup_entry = Entry(signup_frame, textvariable=email_signup_value)
+email_signup_entry.grid(row=3, column=1)
+
+phone_number_entry = Entry (signup_frame, textvariable=phone_number_value)
+phone_number_entry.grid(row=4, column=1)
+
+pass_signup_entry = Entry(signup_frame, show='*', textvariable=pass_signup_value)
+pass_signup_entry.grid(row=5, column=1)
+
+confirm_pass_signup_entry = Entry(signup_frame, show='*', textvariable=confirm_pass_signup_value)
+confirm_pass_signup_entry.grid(row=6, column=1)
+
+confirmation = Checkbutton(signup_frame, text = "I agree", variable=confirmation_value)
+confirmation.grid(row = 7, column = 0)
+
+submit_signup_button = Button(signup_frame, text="Register", command=submit_new_user_details)
+submit_signup_button.grid(row=8, column=0)
+
+# menubar
+menu_bar = Menu (root)
+options_menu = Menu(menu_bar)
+menu_bar.add_cascade(label = "Options", menu=options_menu)
+options_menu.add_command(label = "About", command=about_menu)
+options_menu.add_command(label = "Exit", command=quit)
+root.config(menu=menu_bar)
 
 mainloop()

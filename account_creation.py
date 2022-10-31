@@ -1,35 +1,71 @@
 import hashlib
 import re
 import sqlite3
+import tkinter.messagebox as tmsg
 
-# Regex for email in the form of [ (String)@(String).(any 2 or more characters) ]
-regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+# Regex for email in the form of [ (String)@(String).(any 2 or more characters) ] and phone number in the form of (123) 456-7890
+regex_email = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+phone_regex = re.compile(r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$')
 
-def isValid(email):
-    return re.fullmatch(regex, email)
+def isValidPhoneNumber (phoneNumber):
+    if (re.search(phone_regex, phoneNumber)):
+        return True
+    else:
+        return False
+
+def isValidEmail(email):
+    if re.search(regex_email, email):
+        return True
+    else: return False
 
 
-def register_user(email, phoneNumber, password,cfnpassword ):
+def register_user(email, phoneNumber, password, cfnpassword ):
 
-    if isValid(email):
+    if isValidEmail(email):
+        if isValidPhoneNumber(phoneNumber):
 
-        if cfnpassword == password:
-            enc = cfnpassword.encode()
-            hash1 = hashlib.md5(enc).hexdigest()
+            if cfnpassword == password:
+                if len(password) >= 8:
+                    enc = password.encode()
+                    hash1 = hashlib.md5(enc).hexdigest()
 
-            params = (email, hash1, phoneNumber)
+                    params = (email, hash1, phoneNumber)
 
-            db = sqlite3.connect ("userdata.db")
-            cursor = db.cursor()
-            cursor.execute (''' CREATE TABLE IF NOT EXISTS credentials (email text, password text, phoneNumber Integer )''')
-            cursor.execute('''INSERT INTO credentials VALUES (?,?,?)''', params)
-            db.commit()
+                    db = sqlite3.connect ("userdata.db")
+                    cursor = db.cursor()
+                    cursor.execute (''' CREATE TABLE IF NOT EXISTS credentials (email text, password text, phoneNumber Integer )''')
+                    cursor.execute("select email from credentials where email = ?", (email,))
+                    data = cursor.fetchall()
+                    if len(data):
+                        tmsg.showinfo(message="User already exists!")
+                        return 0
+                    cursor.execute('''INSERT INTO credentials VALUES (?,?,?)''', params)
+                    db.commit()
+                    tmsg.showinfo(message="Account successfully created!")
+                    return 1
+                else: tmsg.showinfo(message="Password should be at least 8 characters long!")
 
-            print("Registration successful")
-
+            else:
+                tmsg.showinfo(message="Passwords do not match!")
         else:
-            print("Passwords do not match")
+            tmsg.showinfo(message="Invalid phone number format!")
 
     else:
-        print("Invalid Email")
+        tmsg.showinfo(message="Invalid email format!")
     
+    
+# functions for debugging purpose
+def drop_table(table_name):
+    db = sqlite3.connect ("userdata.db")
+    cursor = db.cursor()
+    cursor.execute(f"drop table {table_name}")
+
+def show_all_records(table_name):
+    db = sqlite3.connect ("userdata.db")
+    cursor = db.cursor()
+    cursor.execute(f"select * from {table_name}")
+    data = cursor.fetchall()
+    print(data)
+
+# drop_table("credentials")
+# show_all_records("credentials")
