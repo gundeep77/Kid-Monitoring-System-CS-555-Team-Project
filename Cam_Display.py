@@ -11,14 +11,12 @@ class Camera:
     def check_cam(self, NUMBER):
         cam = cv2.VideoCapture(NUMBER) 
         if cam.isOpened():
-            # print("Camera Recording...")
             return True
         else:
             return False
                 
     def live_feed(self, NUMBER):
         if not self.check_cam(NUMBER):
-            # print("Warning: Feed unavailable. \nReason: Camera " + str(NUMBER) + " is not found.")
             tmsg.showinfo(message="Cannot access camera! Please grant permission and sign in again!")
             return
         """Display function to show our webcam footage. No arguments are passed. To display our webcam 

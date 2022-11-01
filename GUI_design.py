@@ -167,6 +167,4 @@ options_menu.add_command(label = "About", command=about_menu)
 options_menu.add_command(label = "Exit", command=quit)
 root.config(menu=menu_bar)
 
-print(type(email_value.get()))
-print(len(email_value.get()))
 mainloop()
