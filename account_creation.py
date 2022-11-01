@@ -68,4 +68,4 @@ def show_all_records(table_name):
     print(data)
 
 # drop_table("credentials")
-# show_all_records("credentials")
+show_all_records("credentials")

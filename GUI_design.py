@@ -4,6 +4,7 @@ import sqlite3
 from account_creation import register_user
 from login import login
 from Cam_Display import Camera, NUMBER
+from authenticate import authenticate
 
 root = Tk()
 
@@ -27,7 +28,7 @@ def create_connection(db_file):
     return conn
 
 def submit_new_user_details():
-    if email_signup_value.get() != None and pass_signup_value.get() != None and phone_number_value.get() != None and confirmation_value.get():
+    if len(email_signup_value.get()) and len(pass_signup_value.get()) and len(phone_number_value.get()) and len(confirmation_value.get()):
         if pass_signup_value.get() == confirm_pass_signup_value.get():
             register_user_return = register_user(email_signup_value.get(), phone_number_value.get(), pass_signup_value.get(), confirm_pass_signup_value.get())
             if register_user_return == 1:
@@ -41,15 +42,29 @@ def submit_new_user_details():
         tmsg.showinfo(message='Please fill in all the details and check "I agree"!')
 
 def signin_function ():
-    if email_value.get() != None and pass_value.get() != None:
+    if len(email_value.get()) and len(pass_value.get()):
         login_return = login(email_value.get(), pass_value.get())
         if login_return == 1:
-            email_entry.delete(0, "end")
-            pass_entry.delete(0, "end")
-            session = Camera()
-            session.live_feed(NUMBER)
+            if authenticate(code_value.get()):
+                email_entry.delete(0, "end")
+                pass_entry.delete(0, "end")
+                code_entry.delete(0, "end")
+                session = Camera()
+                session.live_feed(NUMBER)
+            else: tmsg.showinfo(message="Incorrect verification code! Please try again!")
     else:
-        tmsg.showinfo(message='Incorrect credentials!')
+        tmsg.showinfo(message='Please fill in all the details!')
+
+def clear_signup_fields ():
+    email_signup_entry.delete(0, "end")
+    phone_number_entry.delete(0, "end")
+    pass_signup_entry.delete(0, "end")
+    confirm_pass_signup_entry.delete(0, "end")
+
+def clear_signin_fields ():
+    email_entry.delete(0, "end")
+    pass_entry.delete(0, "end")
+    code_entry.delete(0, "end")
 
 def about_menu ():
     tmsg.showinfo(message="This is application for monitoring your kid at home directly through your webcam!")
@@ -59,17 +74,17 @@ bg_label = Label(root, image=photo)
 bg_label.place(x=0, y=0)
 
 heading_frame = Frame(root, borderwidth=4, relief=SUNKEN)
-heading_frame.place(x=320, y=50)
+heading_frame.place(x=320, y=40)
 heading_text = Label(heading_frame, text="Welcome to Baby Monitoring System!",
                      fg="yellow", font="comicsansms 16 bold", bg="brown")
 heading_text.grid()
 
 # sign in
 signin_text = Label(root, text="Please sign in here:", fg="yellow")
-signin_text.place(x=320, y=118)
+signin_text.place(x=320, y=108)
 
 login_frame = Frame(root, borderwidth=6, relief=SUNKEN)
-login_frame.place(x=320, y=138)
+login_frame.place(x=320, y=128)
 
 email_label = Label(login_frame, text="Email:")
 email_label.grid(row=0, column=0)
@@ -77,8 +92,12 @@ email_label.grid(row=0, column=0)
 password_label = Label(login_frame, text="Password:")
 password_label.grid(row=1, column=0)
 
+code_label = Label(login_frame, text="Verification Code:")
+code_label.grid(row=2, column=0)
+
 email_value = StringVar()
 pass_value = StringVar()
+code_value = StringVar()
 
 email_entry = Entry(login_frame, textvariable=email_value)
 email_entry.grid(row=0, column=1)
@@ -86,8 +105,14 @@ email_entry.grid(row=0, column=1)
 pass_entry = Entry(login_frame, show='*', textvariable=pass_value)
 pass_entry.grid(row=1, column=1)
 
+code_entry = Entry(login_frame, textvariable=code_value)
+code_entry.grid(row=2, column=1)
+
 submit_button = Button(login_frame, text="Start Recording", command=signin_function)
-submit_button.grid(row=2, column=0)
+submit_button.grid(row=3, column=0)
+
+clear_signin_button = Button(login_frame, text="Clear Fields", command=clear_signin_fields)
+clear_signin_button.grid(row=3, column=1)
 
 # signup
 signup_text = Label(root, text="Please sign up here if you don't have an account:", fg="yellow")
@@ -131,6 +156,9 @@ confirmation.grid(row = 7, column = 0)
 submit_signup_button = Button(signup_frame, text="Register", command=submit_new_user_details)
 submit_signup_button.grid(row=8, column=0)
 
+clear_signup_button = Button (signup_frame, text = "Clear Fields", command=clear_signup_fields)
+clear_signup_button.grid(row=8, column=1)
+
 # menubar
 menu_bar = Menu (root)
 options_menu = Menu(menu_bar)
@@ -139,4 +167,6 @@ options_menu.add_command(label = "About", command=about_menu)
 options_menu.add_command(label = "Exit", command=quit)
 root.config(menu=menu_bar)
 
+print(type(email_value.get()))
+print(len(email_value.get()))
 mainloop()

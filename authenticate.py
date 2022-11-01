@@ -2,7 +2,7 @@ import pyotp
 import qrcode
 
 
-def authenticate (user_input):
+def authenticate (generated_code):
     
     '''generate qr code and compare user's input wih Google authenticator's token'''
 
@@ -13,7 +13,7 @@ def authenticate (user_input):
     # qr code image to be scanned by user
     img.save('MyQRCode.png')
 
-    if user_input == totp.now():
-        return 1
+    if generated_code == totp.now():
+        return True
     else:
-        return 0
+        return False

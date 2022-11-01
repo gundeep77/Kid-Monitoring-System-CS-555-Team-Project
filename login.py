@@ -4,7 +4,6 @@
 import hashlib
 import sqlite3
 import tkinter.messagebox as tmsg
-from authenticate import authenticate
 
 def login(email, password):
 
@@ -18,10 +17,7 @@ def login(email, password):
     cursor.execute(statement)
 
     if not cursor.fetchone():
-        tmsg.showinfo(message="User doesn't exist!")
+        tmsg.showinfo(message="Incorrect Credentials!")
         return
     else:
-        # if not authenticate(password):
-        #     tmsg.showinfo(message="Login failed! Please sign in again using a newly generated QR code!")
-        #     return
         return 1
