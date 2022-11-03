@@ -28,7 +28,7 @@ def create_connection(db_file):
     return conn
 
 def submit_new_user_details():
-    if len(email_signup_value.get()) and len(pass_signup_value.get()) and len(phone_number_value.get()) and len(confirmation_value.get()):
+    if len(email_signup_value.get()) and len(pass_signup_value.get()) and len(phone_number_value.get()) and confirmation_value.get():
         if pass_signup_value.get() == confirm_pass_signup_value.get():
             register_user_return = register_user(email_signup_value.get(), phone_number_value.get(), pass_signup_value.get(), confirm_pass_signup_value.get())
             if register_user_return == 1:
