@@ -18,7 +18,7 @@ class Camera:
             return True
         else:
             return False
-                
+       
     def live_feed(self, NUMBER):
         if not self.check_cam(NUMBER):
             tmsg.showinfo(message="Cannot access camera! Please grant permission and sign in again!")
@@ -89,15 +89,34 @@ class Camera:
                 thresh_frame = cv2.threshold(src=diff_frame, thresh=50, maxval=255, type=cv2.THRESH_BINARY)[1]
 
                 contours, _ = cv2.findContours(image=thresh_frame, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
-                cv2.drawContours(image=img_rgb, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=2, lineType=cv2.LINE_AA)     
+                
+                # code of highlighting the contour of the detected change
+                # removed for adding too much clutter
+                # cv2.drawContours(image=img_rgb, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=2, lineType=cv2.LINE_AA)     
 
                 contours, _ = cv2.findContours(image=thresh_frame, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+                
+                # create one bounding box for all detected contours
+                # xx/yy represents ending coordinates, not width/height
+                (x,y,xx,yy) = (640,480,0,0)
                 for contour in contours:
                     if cv2.contourArea(contour) < 50:
                         # too small: skip!
                         continue
-                    (x, y, w, h) = cv2.boundingRect(contour)
-                    cv2.rectangle(img=img_rgb, pt1=(x, y), pt2=(x + w, y + h), color=(0, 255, 0), thickness=2)
+                    # find the coordinates for the one bounding box    
+                    (xP, yP, wP, hP) = cv2.boundingRect(contour)
+                    if (xP+wP > xx):
+                        (x,y,xx,yy) = (x,y,xP+wP,yy)
+                    if (yP+hP > yy):
+                        (x,y,xx,yy) = (x,y,xx,yP+hP)                        
+                    if (xP < x):
+                        (x,y,xx,yy) = (xP,y,xx,yy)
+                    if (yP < y):
+                        (x,y,xx,yy) = (x,yP,xx,yy)
+                
+                # draw one bounding box only if it changes from default
+                if ((x,y,xx,yy) != (640,480,0,0)):
+                    cv2.rectangle(img=img_rgb, pt1=(x, y), pt2=(xx, yy), color=(0, 255, 0), thickness=2)
 
 #
             cv2.putText(img_rgb ,str(datetime.now()),(210,25), font, .4,(390,255,255),1,cv2.LINE_AA)
