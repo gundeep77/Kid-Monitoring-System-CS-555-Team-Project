@@ -5,6 +5,7 @@ from account_creation import register_user
 from login import login
 from Cam_Display import Camera, NUMBER
 from authenticate import authenticate
+import numpy as np
 
 root = Tk()
 

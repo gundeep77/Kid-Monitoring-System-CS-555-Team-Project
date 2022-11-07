@@ -3,6 +3,10 @@ from datetime import datetime
 import cv2
 import tkinter.messagebox as tmsg
 
+import numpy as np
+from PIL import ImageGrab
+
+
 filename = str(datetime.now())+'.mp4'
 global  NUMBER
 NUMBER=0
@@ -25,11 +29,17 @@ class Camera:
         #one webcam currently in service. For each successive webcam we will increment
         #the cv2.VideoCapture size.
         feed = cv2.VideoCapture(NUMBER)
+        
+        # image that blocks camera feed when it is disabled
         disabledpngpath = r'camdisabled.png'
         disabledpng = cv2.imread(disabledpngpath)
         disabledpng = cv2.resize(disabledpng, (640,480))
-        
+
         disableWebcam = False
+        
+        # for motion detection
+        frame_count = 0
+        previous_frame = None
         
         #this inner function will convert the video to a standard 480p resolution across
         #all webcams that we have. Because most webcams these days on the market are a 
@@ -46,13 +56,59 @@ class Camera:
             #will display our current webcam feed with the current date and time in the 
             #center of the window.
             cv2.rectangle(display, (195, 32), (427, 12), (0, 0, 0), -1)
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(display,str(datetime.now()),(210,25), font, .4,(390,255,255),1,cv2.LINE_AA)
-            out.write(display)
+
+            # time stamp font
+            font = cv2.FONT_HERSHEY_SIMPLEX            
+#
+
+            img_brg = display
+            img_rgb = cv2.cvtColor(src=img_brg, code=cv2.COLOR_BGR2RGB)
+
+            if ((frame_count % 2) == 0):
+
+                # 2. Prepare image; grayscale and blur
+                prepared_frame = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+                prepared_frame = cv2.GaussianBlur(src=prepared_frame, ksize=(5,5), sigmaX=0)
+
+                # 3. Set previous frame and continue if there is None
+                if (previous_frame is None):
+                # First frame; there is no previous one yet
+                    previous_frame = prepared_frame
+                    continue
+
+                # calculate difference and update previous frame
+                diff_frame = cv2.absdiff(src1=previous_frame, src2=prepared_frame)
+                previous_frame = prepared_frame
+
+                # 4. Dilute the image a bit to make differences more seeable; more suitable for contour detection
+                kernel = np.ones((5, 5))
+                diff_frame = cv2.dilate(diff_frame, kernel, 1)
+
+                # 5. Only take different areas that are different enough (>20 / 255)
+                # The thresh value was default 20, but I upped it to 50 so it doesn't catch every single thing that moves.
+                thresh_frame = cv2.threshold(src=diff_frame, thresh=50, maxval=255, type=cv2.THRESH_BINARY)[1]
+
+                contours, _ = cv2.findContours(image=thresh_frame, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+                cv2.drawContours(image=img_rgb, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=2, lineType=cv2.LINE_AA)     
+
+                contours, _ = cv2.findContours(image=thresh_frame, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+                for contour in contours:
+                    if cv2.contourArea(contour) < 50:
+                        # too small: skip!
+                        continue
+                    (x, y, w, h) = cv2.boundingRect(contour)
+                    cv2.rectangle(img=img_rgb, pt1=(x, y), pt2=(x + w, y + h), color=(0, 255, 0), thickness=2)
+
+#
+            cv2.putText(img_rgb ,str(datetime.now()),(210,25), font, .4,(390,255,255),1,cv2.LINE_AA)
+            out.write(img_rgb)
+            
+            
+            
             if(disableWebcam):
                 cv2.imshow('Webcam '+str(NUMBER+1), disabledpng)
             else:
-                cv2.imshow('Webcam '+str(NUMBER+1), display)
+                cv2.imshow('Webcam '+str(NUMBER+1), img_rgb)
             
             #if we want to exit our display before we reach the 100 milliseconds 
             #our waitKey function is set for we can simply press the SPACEBAR and it will
