@@ -162,6 +162,3 @@ class Camera:
         
         #when we exit the script we can destroy the windows
         cv2.destroyAllWindows()
-
-
-print(Camera().live_feed(0))

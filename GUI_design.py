@@ -175,7 +175,7 @@ root.config(menu=menu_bar)
 
 # qrcode
 qrcode_image = Image.open("MyQRCode.png")
-qrcode_image = qrcode_image.resize((100, 100), Image.ANTIALIAS)
+qrcode_image = qrcode_image.resize((100, 100), Image.Resampling.LANCZOS)
 qr_code = ImageTk.PhotoImage(qrcode_image)
 qr_label = tkinter.Label(image=qr_code)
 qr_label.image = qr_code
