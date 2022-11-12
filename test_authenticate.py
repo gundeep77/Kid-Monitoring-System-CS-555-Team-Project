@@ -5,9 +5,18 @@ import pyotp
 import time
 
 class TestAuthenticate(unittest.TestCase):
+    """
+    **Description**:
+    
+    Class for unit testing the authentication methods.
+    """
 
     def test_authenticate (self) -> None:
-        "test authenticate function with differents inputs "
+        """
+        **Description**:
+        
+        Tests the authentication function given a set of user inputs, both right and wrong
+        """
 
         totp = pyotp.TOTP('base32secret3232')
 
