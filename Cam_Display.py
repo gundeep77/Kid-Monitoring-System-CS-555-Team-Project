@@ -8,7 +8,7 @@ import numpy as np
 from PIL import ImageGrab
 
 
-filename = str(datetime.now())+'.mp4'
+filename = str(datetime.now())+'.avi'
 global  NUMBER
 NUMBER=0
 
@@ -65,7 +65,7 @@ class Camera:
             feed.set(4,480)
 
         make_480p(feed)
-        out = cv2.VideoWriter(desktop+"/Baby Camera Footage/"+today+"/"+filename, cv2.VideoWriter_fourcc('m','p','4','v'), 10, (640,480))
+        out = cv2.VideoWriter(desktop+"/Baby Camera Footage/"+today+"/"+filename, cv2.VideoWriter_fourcc(*'MJPG'), 10, (640,480))
         while True:
             ret, display = feed.read()
             
