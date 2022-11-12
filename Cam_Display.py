@@ -2,6 +2,7 @@
 from datetime import datetime
 import cv2
 import tkinter.messagebox as tmsg
+import os
 
 import numpy as np
 from PIL import ImageGrab
@@ -10,6 +11,21 @@ from PIL import ImageGrab
 filename = str(datetime.now())+'.mp4'
 global  NUMBER
 NUMBER=0
+
+
+#Code to create footage storage folder to user desktop
+desktop  = os.path.expanduser("~/Desktop")
+today = datetime.today().strftime('%Y-%m-%d')
+def createFolder(desktop):
+    try:
+        if not os.path.exists(desktop+"/Baby Camera Footage"):
+            os.makedirs(desktop+"/Baby Camera Footage")
+        if not os.path.exists(desktop+ "/Baby Camera Footage/"+today):
+            os.makedirs(desktop+ "/Baby Camera Footage/"+today)
+    except OSError:
+        print('Error: Creating Directory.')
+    return desktop+"/Baby Camera Footage/"+today+"/"
+createFolder(desktop)   
 
 class Camera:
     def check_cam(self, NUMBER):
@@ -49,7 +65,7 @@ class Camera:
             feed.set(4,480)
 
         make_480p(feed)
-        out = cv2.VideoWriter(filename, cv2.VideoWriter_fourcc('m','p','4','v'), 10, (640,480))
+        out = cv2.VideoWriter(desktop+"/Baby Camera Footage/"+today+"/"+filename, cv2.VideoWriter_fourcc('m','p','4','v'), 10, (640,480))
         while True:
             ret, display = feed.read()
             
@@ -146,3 +162,6 @@ class Camera:
         
         #when we exit the script we can destroy the windows
         cv2.destroyAllWindows()
+
+
+print(Camera().live_feed(0))
