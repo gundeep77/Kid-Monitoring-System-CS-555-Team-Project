@@ -77,8 +77,8 @@ class Camera:
             font = cv2.FONT_HERSHEY_SIMPLEX            
 #
 
-            img_brg = display
-            img_rgb = cv2.cvtColor(src=img_brg, code=cv2.COLOR_BGR2RGB)
+            img_rgb = display
+            # img_rgb = cv2.cvtColor(src=img_brg, code=cv2.COLOR_BGR2RGB)
 
             if ((frame_count % 2) == 0):
 
