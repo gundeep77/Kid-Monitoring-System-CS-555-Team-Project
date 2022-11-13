@@ -5,6 +5,11 @@ from PIL import ImageGrab
 # Derived from a tutorial:
 # https://towardsdatascience.com/image-analysis-for-beginners-creating-a-motion-detector-with-opencv-4ca6faba4b42
 def motion_detector():
+    """
+    **Description**:
+
+    Detects movement on a display.
+    """
   
     frame_count = 0
     previous_frame = None

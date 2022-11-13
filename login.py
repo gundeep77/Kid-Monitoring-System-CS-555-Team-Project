@@ -6,6 +6,20 @@ import sqlite3
 import tkinter.messagebox as tmsg
 
 def login(email, password):
+    """
+    **Description**:
+    
+    Logs in a user given an email and password
+
+    **Args**:
+
+    `email` *(string)*: E-mail address\n
+    `password` *(string)*: Password
+    
+    **Returns**:
+
+    1 if passes, nothing otherwise.
+    """
 
     auth = password.encode()
     auth_hash = hashlib.md5(auth).hexdigest()

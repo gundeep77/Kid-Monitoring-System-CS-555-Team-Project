@@ -3,8 +3,19 @@ import qrcode
 
 
 def authenticate (generated_code):
+    """
+    **Description**:
     
-    '''generate qr code and compare user's input wih Google authenticator's token'''
+    Generate QR Code and compare user's input with Google Authenticator's token
+    
+    **Args**:
+
+    `generated_code` *(string)*: Code generated from the app to check against
+
+    **Returns**:
+    
+    True if passes, False otherwise
+    """
 
     totp = pyotp.TOTP('base32secret3232')
     auth_str = totp.provisioning_uri(name ='KMS User', issuer_name='CS 555 Team 7')

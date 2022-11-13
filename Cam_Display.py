@@ -29,7 +29,22 @@ def createFolder(desktop):
 createFolder(desktop)   
 
 class Camera:
+    """
+    **Description**:
+    
+    Camera class made to handle webcam footage.
+    """
+
     def check_cam(self, NUMBER):
+        """
+        **Description**:
+        
+        Checks to see if the camera is opened or not.
+        
+        **Args**:
+
+        `NUMBER` *(int)*: Takes in an integer value defined globally to capture video from indexed camera
+        """
         cam = cv2.VideoCapture(NUMBER) 
         if cam.isOpened():
             return True
@@ -37,11 +52,20 @@ class Camera:
             return False
        
     def live_feed(self, NUMBER):
+        """
+        **Description**:
+        
+        Display function to show our webcam footage. No arguments are passed. To display our webcam 
+        footage for our current selected camera simply pass display().
+        
+        **Args**:
+
+        `NUMBER` *(int)*: Takes in an integer value defined globally to capture video from indexed camera
+        """
         if not self.check_cam(NUMBER):
             tmsg.showinfo(message="Cannot access camera! Please grant permission and sign in again!")
             return
-        """Display function to show our webcam footage. No arguments are passed. To display our webcam 
-        footage for our current selected camera simply pass display()."""
+        
         #this will be our initialized webcam feed starting from 0 because we only have
         #one webcam currently in service. For each successive webcam we will increment
         #the cv2.VideoCapture size.

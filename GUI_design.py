@@ -23,6 +23,19 @@ db = sqlite3.connect ("userdata.db")
 cursor = db.cursor() 
 
 def create_connection(db_file):
+    """
+    **Description**:
+
+    Creates a connection to a specified sql db file
+
+    **Args**:
+
+    `db_file` *(string)*: String path file to database
+
+    **Returns**:
+
+    Connection established to database.
+    """
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -31,6 +44,11 @@ def create_connection(db_file):
     return conn
 
 def submit_new_user_details():
+    """
+    **Description**:
+    
+    Sends new user details to register them for account creation.
+    """
     if len(email_signup_value.get()) and len(pass_signup_value.get()) and len(phone_number_value.get()) and confirmation_value.get():
         if pass_signup_value.get() == confirm_pass_signup_value.get():
             register_user_return = register_user(email_signup_value.get(), phone_number_value.get(), pass_signup_value.get(), confirm_pass_signup_value.get())
@@ -45,6 +63,11 @@ def submit_new_user_details():
         tmsg.showinfo(message='Please fill in all the details and check "I agree"!')
 
 def signin_function ():
+    """
+    **Description**:
+    
+    Logins the user with given credentials
+    """
     if len(email_value.get()) and len(pass_value.get()):
         login_return = login(email_value.get(), pass_value.get())
         if login_return == 1:
@@ -59,21 +82,45 @@ def signin_function ():
         tmsg.showinfo(message='Please fill in all the details!')
 
 def clear_signup_fields ():
+    """
+    **Description**:
+
+    Clears the fields for signup
+    """
     email_signup_entry.delete(0, "end")
     phone_number_entry.delete(0, "end")
     pass_signup_entry.delete(0, "end")
     confirm_pass_signup_entry.delete(0, "end")
 
-def clear_signin_fields ():
+def clear_login_fields ():
+    """
+    **Description**:
+    
+    Clears the fields for login
+    """
     email_entry.delete(0, "end")
     pass_entry.delete(0, "end")
     code_entry.delete(0, "end")
 
 def about_menu ():
+    """
+    **Description**:
+
+    Shows info for the about menu
+    """
     tmsg.showinfo(message="This is application for monitoring your kid at home directly through your webcam!")
 
 def callback(url):
-   webbrowser.open_new_tab(url)
+    """
+    **Description**:
+
+    Opens a tab in the web browser from a specified URL
+
+    **Args**:
+
+    `url` *(string)*: Specified URL path
+    """
+    webbrowser.open_new_tab(url)
 
 photo = PhotoImage(file="child_monitor.png")
 bg_label = Label(root, image=photo)
@@ -117,7 +164,7 @@ code_entry.grid(row=2, column=1)
 submit_button = Button(login_frame, text="Start Recording", command=signin_function)
 submit_button.grid(row=3, column=0)
 
-clear_signin_button = Button(login_frame, text="Clear Fields", command=clear_signin_fields)
+clear_signin_button = Button(login_frame, text="Clear Fields", command=clear_login_fields)
 clear_signin_button.grid(row=3, column=1)
 
 # signup
