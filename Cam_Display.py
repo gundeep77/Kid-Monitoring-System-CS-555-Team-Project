@@ -3,7 +3,7 @@ from datetime import datetime
 import cv2
 import tkinter.messagebox as tmsg
 import os
-from encrypt import Encrypt, Decrypt
+from Encryption import Encrypt, Decrypt
 
 import numpy as np
 from PIL import ImageGrab
@@ -167,4 +167,3 @@ class Camera:
         cv2.destroyAllWindows()
 
 print(Camera().live_feed(0))
-Encrypt(desktop+"/Baby Camera Footage/"+today+"/"+filename)
