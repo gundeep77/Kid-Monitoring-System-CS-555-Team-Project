@@ -28,7 +28,11 @@ def login(email, password):
     cursor = db.cursor()
 
     statement = f"SELECT email from credentials WHERE email = '{email}' and password = '{auth_hash}'"
-    cursor.execute(statement)
+    try:
+        cursor.execute(statement)
+    except:
+        tmsg.showinfo(message="User doesn't exist! Please sign up first!")
+        return
 
     if not cursor.fetchone():
         tmsg.showinfo(message="Incorrect Credentials!")

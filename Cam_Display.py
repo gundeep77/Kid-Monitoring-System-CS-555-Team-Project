@@ -200,11 +200,3 @@ if __name__ == "__main__":
     path = input("File path to decrypt: ")
     key = input("Enter key to decrypt file: ")
     Decrypt(path,int(key))
-   
-
-
-
-
-    
-
-
