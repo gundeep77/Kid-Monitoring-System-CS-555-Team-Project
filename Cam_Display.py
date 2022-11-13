@@ -3,19 +3,18 @@ from datetime import datetime
 import cv2
 import tkinter.messagebox as tmsg
 import os
-from Encryption import Encrypt, Decrypt
 
 import numpy as np
 from PIL import ImageGrab
 
-current_time = datetime.now().strftime("%H-%M-%S")
-filename = str(current_time)+'.avi'
+
+filename = str(datetime.now())+'.avi'
 global  NUMBER
 NUMBER=0
 
 
 #Code to create footage storage folder to user desktop
-desktop  = os.path.expanduser("~/Desktop")
+desktop  = os.path.expanduser("~/Downloads")
 today = datetime.today().strftime('%Y-%m-%d')
 def createFolder(desktop):
     try:
@@ -90,8 +89,7 @@ class Camera:
             feed.set(4,480)
 
         make_480p(feed)
-        video = desktop+"/Baby Camera Footage/"+today+"/"+filename
-        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc(*'MJPG'), 10, (640,480))
+        out = cv2.VideoWriter(desktop+"/Baby Camera Footage/"+today+"/"+filename, cv2.VideoWriter_fourcc(*'MJPG'), 10, (640,480))
         while True:
             ret, display = feed.read()
             
@@ -176,7 +174,7 @@ class Camera:
             #stop our program. Ideally, we would want this to be a GUI item to 
             #close our program.
             if cv2.waitKey(100)==32:
-                tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
+                tmsg.showinfo(message="Recording finished! You can find it in your Downloads folder.")
                 break
             
             if cv2.waitKey(20)==27:
@@ -186,8 +184,5 @@ class Camera:
         out.release()
         feed.release()
         
-        
         #when we exit the script we can destroy the windows
         cv2.destroyAllWindows()
-
-print(Camera().live_feed(0))
