@@ -26,7 +26,8 @@ def createFolder(desktop):
     except OSError:
         print('Error: Creating Directory.')
     return desktop+"/Baby Camera Footage/"+today+"/"
-createFolder(desktop)   
+createFolder(desktop) 
+
 
 class Camera:
     """
@@ -91,6 +92,7 @@ class Camera:
 
         make_480p(feed)
         video = desktop+"/Baby Camera Footage/"+today+"/"+filename
+        
         out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc(*'MJPG'), 10, (640,480))
         while True:
             ret, display = feed.read()
@@ -176,7 +178,8 @@ class Camera:
             #stop our program. Ideally, we would want this to be a GUI item to 
             #close our program.
             if cv2.waitKey(100)==32:
-                tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
+                Encrypt(video,123)
+                #tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
                 break
             
             if cv2.waitKey(20)==27:
@@ -190,4 +193,18 @@ class Camera:
         #when we exit the script we can destroy the windows
         cv2.destroyAllWindows()
 
-print(Camera().live_feed(0))
+if __name__ == "__main__":
+
+    Camera().live_feed(0)
+
+    path = input("File path to decrypt: ")
+    key = input("Enter key to decrypt file: ")
+    Decrypt(path,int(key))
+   
+
+
+
+
+    
+
+
