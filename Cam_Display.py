@@ -177,13 +177,24 @@ class Camera:
             #our waitKey function is set for we can simply press the SPACEBAR and it will
             #stop our program. Ideally, we would want this to be a GUI item to 
             #close our program.
-            if cv2.waitKey(100)==32:
+            keypress = cv2.waitKey(1);
+
+            # Ends the session
+            if keypress == 32:
                 Encrypt(video,123)
                 #tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
                 break
             
-            if cv2.waitKey(20)==27:
-                disableWebcam = 1 - disableWebcam            
+            # Disabled the live feed temporarily
+            elif keypress == 27:
+                disableWebcam = 1 - disableWebcam    
+
+            # Saves screenshot
+            elif keypress == 115:
+                screenshot = str(datetime.now().strftime("%H-%M-%S-%MS"))+".jpg"
+                if not cv2.imwrite(desktop+"/Baby Camera Footage/"+screenshot, img_rgb):
+                    print("Couldn't save screenshot")
+                    
         #this will release our resource so that another program can use our camera.
 
         out.release()
@@ -197,5 +208,6 @@ if __name__ == "__main__":
 
     Camera().live_feed(0)
 
-
-
+    path = input("File path to decrypt: ")
+    key = input("Enter key to decrypt file: ")
+    Decrypt(path,int(key))
