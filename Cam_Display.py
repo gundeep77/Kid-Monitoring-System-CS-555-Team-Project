@@ -191,12 +191,11 @@ class Camera:
         
         
         #when we exit the script we can destroy the windows
-        cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
 
     Camera().live_feed(0)
 
-    path = input("File path to decrypt: ")
-    key = input("Enter key to decrypt file: ")
-    Decrypt(path,int(key))
+
+
