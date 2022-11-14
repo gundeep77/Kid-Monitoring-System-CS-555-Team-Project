@@ -3,7 +3,7 @@ from datetime import datetime
 import cv2
 import tkinter.messagebox as tmsg
 import os
-from Encryption import Encrypt, Decrypt
+from Encryption import Encrypt, Decrypt, play_Files
 
 import numpy as np
 from PIL import ImageGrab

@@ -60,7 +60,7 @@ def Decrypt(filename, key):
 
 
     
-# Decrypt("/Users/rolandjohn/Desktop/Baby Camera Footage/2022-11-13/09-11-20.avi",2)
+
 def play_Files():
     choice = ""
     while choice != "3":
@@ -81,6 +81,8 @@ def play_Files():
     # if choice =="3":
     #     cap.release()
     #     cv2.destroyAllWindows()
+
+play_Files()
         
         
 
