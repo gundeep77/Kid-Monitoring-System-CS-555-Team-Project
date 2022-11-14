@@ -208,6 +208,6 @@ if __name__ == "__main__":
 
     Camera().live_feed(0)
 
-    path = input("File path to decrypt: ")
-    key = input("Enter key to decrypt file: ")
-    Decrypt(path,int(key))
+    # path = input("File path to decrypt: ")
+    # key = input("Enter key to decrypt file: ")
+    # Decrypt(path,int(key))
