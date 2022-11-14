@@ -1,6 +1,13 @@
+'''This program will encrypt and decrypt files with a given key. The default key we have
+is 123. When we integrate with the database the keys will be specific to the user.
+
+Note: Encryption happens automatically when the video recordings ends. 
+Decryption requires the user to select the file path name and then enter the key.
+'''
+
+
 import base64
 import os
-import vlc
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -76,5 +83,5 @@ def play_Files():
     #     cv2.destroyAllWindows()
         
         
-play_Files()
+
 

@@ -207,7 +207,8 @@ class Camera:
 if __name__ == "__main__":
 
     Camera().live_feed(0)
-
-    # path = input("File path to decrypt: ")
-    # key = input("Enter key to decrypt file: ")
-    # Decrypt(path,int(key))
+    cv2.waitKey(1)
+    cv2.destroyAllWindows()
+    for i in range (1,5):
+        cv2.waitKey(1)
+    
