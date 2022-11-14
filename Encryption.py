@@ -6,13 +6,13 @@ Decryption requires the user to select the file path name and then enter the key
 '''
 
 
-import base64
-import os
-from cryptography.fernet import Fernet
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-import cv2
+# import base64
+# import os
+# from cryptography.fernet import Fernet
+# from cryptography.hazmat.backends import default_backend
+# from cryptography.hazmat.primitives import hashes
+# from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+# import cv2
 
 # password = b"password"
 # hkdf = HKDF(
@@ -77,7 +77,7 @@ def play_Files():
         if choice == "2":
             Decrypt(filename, key)
             print("File ready to play.")
-            
+
     # if choice =="3":
     #     cap.release()
     #     cv2.destroyAllWindows()
