@@ -5,7 +5,7 @@ Note: Encryption happens automatically when the video recordings ends.
 Decryption requires the user to select the file path name and then enter the key.
 '''
 
-
+import cv2
 # import base64
 # import os
 # from cryptography.fernet import Fernet
@@ -76,13 +76,11 @@ def play_Files():
             Encrypt(filename, key)
         if choice == "2":
             Decrypt(filename, key)
-            print("File ready to play.")
-
+            
+                      
     # if choice =="3":
     #     cap.release()
     #     cv2.destroyAllWindows()
-
-play_Files()
         
         
 
