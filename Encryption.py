@@ -6,6 +6,7 @@ Decryption requires the user to select the file path name and then enter the key
 '''
 
 import cv2
+import os
 # import base64
 # import os
 # from cryptography.fernet import Fernet
@@ -32,36 +33,53 @@ import cv2
 
 
 def Encrypt(filename, key):
-    file = open(filename, "rb")
-    data = file.read()
-    file.close()
+    try:
+        file = open(filename, "rb")
+        data = file.read()
+        file.close()
+
+        data = bytearray(data)
+        for index, value in enumerate(data):
+            data[index] = value ^ key
+            
+        file = open(filename, "wb")
+        file.write(data)
+        file.close()
+    except FileNotFoundError:
+        print("File does not exist!")
+    except ValueError:
+        print("Key is invalid.")
     
-    data = bytearray(data)
-    for index, value in enumerate(data):
-        data[index] = value ^ key
-        
-    file = open(filename, "wb")
-    file.write(data)
-    file.close()
 
 def Decrypt(filename, key):
-    file = open(filename, "rb")
-    data = file.read()
-    file.close()
-    
-    data = bytearray(data)
-    for index, value in enumerate(data):
-        data[index] = value ^ key
-        
-    
-    file = open(filename, "wb")
-    file.write(data)
-    file.close()
+    try:
+        file = open(filename, "rb")
+        data = file.read()
+        file.close()
 
+        data = bytearray(data)
+        for index, value in enumerate(data):
+            data[index] = value ^ key
+            
+        
+        file = open(filename, "wb")
+        file.write(data)
+        file.close()
+    except FileNotFoundError:
+        print("File does not exist!")
+    except ValueError:
+        print("Key is invalid.")
+    
 
     
 
 def play_Files():
+    """
+    Args: None
+    The user will follow the propmpts to decrypt/encrypt files when
+    given a pathname and key. If the key is the correct key for that
+    user then the selected encryption 
+    """
     choice = ""
     while choice != "3":
         print("Please select your option.")
@@ -75,6 +93,7 @@ def play_Files():
         if choice == "1":
             Encrypt(filename, key)
         if choice == "2":
+            
             Decrypt(filename, key)
             
                       
