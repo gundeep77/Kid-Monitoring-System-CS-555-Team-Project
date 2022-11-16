@@ -2,6 +2,8 @@ import hashlib
 import re
 import sqlite3
 import tkinter.messagebox as tmsg
+import random
+
 
 # Regex for email in the form of [ (String)@(String).(any 2 or more characters) ] and phone number in the form of (123) 456-7890
 regex_email = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
@@ -68,17 +70,20 @@ def register_user(email, phoneNumber, password, cfm_password ):
                     enc = password.encode()
                     hash1 = hashlib.md5(enc).hexdigest()
 
-                    params = (email, hash1, phoneNumber)
+                    random_key = generateFile_key()
+
+                    params = (email, hash1, phoneNumber, random_key)
+
 
                     db = sqlite3.connect ("userdata.db")
                     cursor = db.cursor()
-                    cursor.execute (''' CREATE TABLE IF NOT EXISTS credentials (email text, password text, phoneNumber Integer )''')
+                    cursor.execute (''' CREATE TABLE IF NOT EXISTS credentials (email text, password text, phoneNumber Integer, file_key Integer )''')
                     cursor.execute("select email from credentials where email = ?", (email,))
                     data = cursor.fetchall()
                     if len(data):
                         tmsg.showinfo(message="User already exists!")
                         return 0
-                    cursor.execute('''INSERT INTO credentials VALUES (?,?,?)''', params)
+                    cursor.execute('''INSERT INTO credentials VALUES (?,?,?,?)''', params)
                     db.commit()
                     tmsg.showinfo(message="Account successfully created!")
                     return 1
@@ -124,6 +129,11 @@ def show_all_records(table_name):
     cursor.execute(f"select * from {table_name}")
     data = cursor.fetchall()
     print(data)
+
+def generateFile_key():
+    """randomly generate integer key between 1 and 255 to encrypt/decrypt video files """
+    file_key = random.randint(1, 255)
+    return file_key
 
 # drop_table("credentials")
 # show_all_records("credentials")
