@@ -49,6 +49,8 @@ def Encrypt(filename, key):
         print("File does not exist!")
     except ValueError:
         print("Key is invalid.")
+    except Exception:
+        print("Invalid Key or file name.")
     
 
 def Decrypt(filename, key):
@@ -69,6 +71,8 @@ def Decrypt(filename, key):
         print("File does not exist!")
     except ValueError:
         print("Key is invalid.")
+    except Exception:
+        print("Invalid Key or file name.")
     
 
     
@@ -88,12 +92,15 @@ def play_Files():
         print("3. Quit")
         choice = input()
         if choice == "1" or choice == "2":
-            key = int(input("Enter a key as int!\n"))
+            try:
+                key = int(input("Enter a key as int!\n"))
+            except ValueError:
+                print("The key is invalid.")
+                continue
             filename = input("Enter filename with extension:\n")
         if choice == "1":
             Encrypt(filename, key)
         if choice == "2":
-            
             Decrypt(filename, key)
             
                       
