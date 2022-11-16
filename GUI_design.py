@@ -69,14 +69,19 @@ def signin_function ():
     Logins the user with given credentials
     """
     if len(email_value.get()) and len(pass_value.get()):
-        login_return = login(email_value.get(), pass_value.get())
+
+        email_input = email_value.get()
+        password_input = pass_value.get()
+
+        login_return = login(email_input, password_input)
+
         if login_return == 1:
             if authenticate(code_value.get()):
                 email_entry.delete(0, "end")
                 pass_entry.delete(0, "end")
                 code_entry.delete(0, "end")
                 session = Camera()
-                session.live_feed(NUMBER)
+                session.live_feed(NUMBER, email_input)
             else: tmsg.showinfo(message="Incorrect verification code! Please try again!")
     else:
         tmsg.showinfo(message='Please fill in all the details!')
