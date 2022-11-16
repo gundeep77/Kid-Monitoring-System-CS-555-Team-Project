@@ -4,6 +4,7 @@ import cv2
 import tkinter.messagebox as tmsg
 import os
 from Encryption import Encrypt, Decrypt, play_Files
+import sqlite3
 
 import numpy as np
 from PIL import ImageGrab
@@ -52,7 +53,7 @@ class Camera:
         else:
             return False
        
-    def live_feed(self, NUMBER):
+    def live_feed(self, NUMBER, currentuseremail):
         """
         **Description**:
         
@@ -181,7 +182,14 @@ class Camera:
 
             # Ends the session
             if keypress == 32:
-                Encrypt(video,123)
+
+                #sconnect to database and search for current user's file key 
+                db = sqlite3.connect ("userdata.db")
+                cursor = db.cursor()
+                cursor.execute("select file_key from credentials where email = ?", (currentuseremail,))
+                file_key = cursor.fetchone()
+
+                Encrypt(video, file_key[0])
                 #tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
                 break
             
@@ -206,7 +214,8 @@ class Camera:
 
 if __name__ == "__main__":
 
-    Camera().live_feed(0)
+    # add string argument to live feed to avoid system error
+    Camera().live_feed(0, 'str')
     cv2.waitKey(1)
     cv2.destroyAllWindows()
     for i in range (1,5):
