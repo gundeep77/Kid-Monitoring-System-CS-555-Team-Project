@@ -7,6 +7,8 @@ Decryption requires the user to select the file path name and then enter the key
 
 import cv2
 import os
+import sys
+sys.tracebacklimit=None
 # import base64
 # import os
 # from cryptography.fernet import Fernet
@@ -31,7 +33,14 @@ import os
 # print("Decrypted: \n"+ str(token))
 
 
-
+def check_key(key):
+    try: 
+        key = int(key)
+        if 1<=key<=255:
+            return key
+    except ValueError:
+        return False
+    return False
 def Encrypt(filename, key):
     try:
         file = open(filename, "rb")
@@ -45,6 +54,7 @@ def Encrypt(filename, key):
         file = open(filename, "wb")
         file.write(data)
         file.close()
+        print("Filed successfully encrypted.")
     except FileNotFoundError:
         print("File does not exist!")
     except ValueError:
@@ -67,6 +77,7 @@ def Decrypt(filename, key):
         file = open(filename, "wb")
         file.write(data)
         file.close()
+        print("Filed successfully decrypted.")
     except FileNotFoundError:
         print("File does not exist!")
     except ValueError:
@@ -91,12 +102,11 @@ def play_Files():
         print("2. Decrypt File")
         print("3. Quit")
         choice = input()
+        key = input("Enter key:\n")
+        if check_key(key) == False:
+            print("Invalid key!")
+            continue
         if choice == "1" or choice == "2":
-            try:
-                key = int(input("Enter a key as int!\n"))
-            except ValueError:
-                print("The key is invalid.")
-                continue
             filename = input("Enter filename with extension:\n")
         if choice == "1":
             Encrypt(filename, key)
