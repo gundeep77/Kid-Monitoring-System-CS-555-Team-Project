@@ -10,7 +10,7 @@ import numpy as np
 from PIL import ImageGrab
 
 current_time = datetime.now().strftime("%H-%M-%S")
-filename = str(current_time)+'.avi'
+filename = str(current_time)+'.mp4'
 global  NUMBER
 NUMBER=0
 
@@ -94,7 +94,7 @@ class Camera:
         make_480p(feed)
         video = desktop+"/Baby Camera Footage/"+today+"/"+filename
         
-        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc(*'MJPG'), 10, (640,480))
+        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc(*'mp4v'), 10, (640,480))
         while True:
             ret, display = feed.read()
             
@@ -219,11 +219,9 @@ class Camera:
 if __name__ == "__main__":
 
     # add string argument to live feed to avoid system error
-    # Camera().live_feed(0, 'str')
+    Camera().live_feed(0, 'str')
     cv2.waitKey(1)
     cv2.destroyAllWindows()
     for i in range (1,5):
         cv2.waitKey(1)
-    play_Files()
-    
-    
+    play_Files()   
