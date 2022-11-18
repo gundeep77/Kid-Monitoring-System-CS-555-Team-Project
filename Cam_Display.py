@@ -10,7 +10,7 @@ import numpy as np
 from PIL import ImageGrab
 
 current_time = datetime.now().strftime("%H-%M-%S")
-filename = str(current_time)+'.avi'
+filename = str(current_time)+'.mp4'
 global  NUMBER
 NUMBER=0
 
@@ -94,7 +94,7 @@ class Camera:
         make_480p(feed)
         video = desktop+"/Baby Camera Footage/"+today+"/"+filename
         
-        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc(*'MJPG'), 10, (640,480))
+        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc(*'mp4v'), 10, (640,480))
         while True:
             ret, display = feed.read()
             
@@ -109,7 +109,7 @@ class Camera:
             img_rgb = display
             # img_rgb = cv2.cvtColor(src=img_brg, code=cv2.COLOR_BGR2RGB)
 
-            if ((frame_count % 2) == 0):
+            if ((frame_count % 10) == 0):
 
                 # 2. Prepare image; grayscale and blur
                 prepared_frame = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
@@ -220,10 +220,8 @@ if __name__ == "__main__":
 
     # add string argument to live feed to avoid system error
     # Camera().live_feed(0, 'str')
-    cv2.waitKey(1)
-    cv2.destroyAllWindows()
-    for i in range (1,5):
-        cv2.waitKey(1)
-    play_Files()
-    
-    
+    # cv2.waitKey(1)
+    # cv2.destroyAllWindows()
+    # for i in range (1,5):
+    #     cv2.waitKey(1)
+    play_Files()   
