@@ -38,9 +38,10 @@ def check_key(key):
         key = int(key)
         if 1<=key<=255:
             return key
-    except ValueError:
-        return False
+    except Exception:
+        print("Key is invalid")
     return False
+
 def Encrypt(filename, key):
     try:
         file = open(filename, "rb")
@@ -60,7 +61,7 @@ def Encrypt(filename, key):
     except ValueError:
         print("Key is invalid.")
     except Exception:
-        print("Invalid Key or file name.")
+        print("Invalid key or file name.")
     
 
 def Decrypt(filename, key):
@@ -83,7 +84,7 @@ def Decrypt(filename, key):
     except ValueError:
         print("Key is invalid.")
     except Exception:
-        print("Invalid Key or file name.")
+        print("Invalid key or file name.")
     
 
     
@@ -102,11 +103,15 @@ def play_Files():
         print("2. Decrypt File")
         print("3. Quit")
         choice = input()
+        if choice=="3":
+            print("Program Complete.")
+            break
         key = input("Enter key:\n")
         if check_key(key) == False:
-            print("Invalid key!")
+            print("Key is invalid.")
             continue
         if choice == "1" or choice == "2":
+            
             filename = input("Enter filename with extension:\n")
         if choice == "1":
             Encrypt(filename, key)
