@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import Tk, Label, Frame, PhotoImage, StringVar, IntVar, SUNKEN, Entry, Button, Checkbutton, Menu, mainloop
+from tkinter import filedialog,Tk, Label, Frame, PhotoImage, StringVar, IntVar, SUNKEN, Entry, Button, Checkbutton, Menu, mainloop
 import tkinter.messagebox as tmsg
 import sqlite3
 from account_creation import register_user
@@ -8,6 +8,8 @@ from Cam_Display import Camera, NUMBER
 from authenticate import authenticate
 from PIL import Image, ImageTk
 import webbrowser
+import os
+from Encryption import Encrypt,Decrypt,play_Files
 
 root = Tk()
 
@@ -17,11 +19,21 @@ window_height = 500
 root.geometry(f"{window_width}x{window_height}")
 root.maxsize(window_width, window_height)
 root.minsize(window_width, window_height)
-
+desktop  = os.path.expanduser("~/Desktop")
 # establishing db connection
 db = sqlite3.connect ("userdata.db")
-cursor = db.cursor() 
+cursor = db.cursor()
 
+def openFile():
+    
+   
+    attempt.get()
+    filepath = filedialog.askopenfilename(initialdir=desktop+"/Baby Camera Footage",
+                                          title="Camera Footage",
+                                          filetypes= (("all video format", ".mp4",".avi"),
+                                          ("all video format", ".avi")))
+    
+        
 def create_connection(db_file):
     """
     **Description**:
@@ -126,6 +138,8 @@ def callback(url):
     `url` *(string)*: Specified URL path
     """
     webbrowser.open_new_tab(url)
+
+
 
 photo = PhotoImage(file="child_monitor.png")
 bg_label = Label(root, image=photo)
@@ -241,4 +255,9 @@ link_android.place(x=0, y=121)
 link_ios.bind("<Button-1>", lambda e: callback("https://apps.apple.com/us/app/google-authenticator/id388497605"))
 link_android.bind("<Button-1>", lambda e: callback("https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&pli=1"))
 
+key_input = Entry(root)
+footage = Button(text="Access Footage", command=openFile)
+footage.pack()
+attempt = Entry()
+attempt.pack()
 mainloop()

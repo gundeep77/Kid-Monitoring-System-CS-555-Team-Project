@@ -4,10 +4,11 @@ is 123. When we integrate with the database the keys will be specific to the use
 Note: Encryption happens automatically when the video recordings ends. 
 Decryption requires the user to select the file path name and then enter the key.
 '''
-
+from tkinter import *
 import cv2
 import os
 import sys
+import tkinter.messagebox as tmsg
 sys.tracebacklimit=None
 # import base64
 # import os
@@ -28,9 +29,9 @@ sys.tracebacklimit=None
 # key = base64.urlsafe_b64encode(hkdf.derive(password))
 # f = Fernet(key)
 # token = f.encrypt(b"Secret message!")
-# print("Encrypted: \n" + str(token))
+# tmsg.showinfo("Encrypted: \n" + str(token))
 # token = f.decrypt(token)
-# print("Decrypted: \n"+ str(token))
+# tmsg.showinfo("Decrypted: \n"+ str(token))
 
 
 def check_key(key):
@@ -39,7 +40,7 @@ def check_key(key):
         if 1<=key<=255:
             return key
     except Exception:
-        print("Key is invalid")
+        tmsg.showinfo("Key is invalid")
     return False
 
 def Encrypt(filename, key):
@@ -55,13 +56,13 @@ def Encrypt(filename, key):
         file = open(filename, "wb")
         file.write(data)
         file.close()
-        print("Filed successfully encrypted.")
+        tmsg.showinfo("Filed successfully encrypted.")
     except FileNotFoundError:
-        print("File does not exist!")
+        tmsg.showinfo("File does not exist!")
     except ValueError:
-        print("Key is invalid.")
+        tmsg.showinfo("Key is invalid.")
     except Exception:
-        print("Invalid key or file name.")
+        tmsg.showinfo("Invalid key or file name.")
     
 
 def Decrypt(filename, key):
@@ -69,7 +70,7 @@ def Decrypt(filename, key):
         file = open(filename, "rb")
         data = file.read()
         file.close()
-
+        attempt = Entry()
         data = bytearray(data)
         for index, value in enumerate(data):
             data[index] = value ^ key
@@ -78,13 +79,13 @@ def Decrypt(filename, key):
         file = open(filename, "wb")
         file.write(data)
         file.close()
-        print("Filed successfully decrypted.")
+        tmsg.showinfo("Filed successfully decrypted.")
     except FileNotFoundError:
-        print("File does not exist!")
+        tmsg.showinfo("File does not exist!")
     except ValueError:
-        print("Key is invalid.")
+        tmsg.showinfo("Key is invalid.")
     except Exception:
-        print("Invalid key or file name.")
+        tmsg.showinfo("Invalid key or file name.")
     
 
     
@@ -98,17 +99,17 @@ def play_Files():
     """
     choice = ""
     while choice != "3":
-        print("Please select your option.")
-        print("1. Encrypt File")
-        print("2. Decrypt File")
-        print("3. Quit")
+        tmsg.showinfo("Please select your option.")
+        tmsg.showinfo("1. Encrypt File")
+        tmsg.showinfo("2. Decrypt File")
+        tmsg.showinfo("3. Quit")
         choice = input()
         if choice=="3":
-            print("Program Complete.")
+            tmsg.showinfo("Program Complete.")
             break
         key = input("Enter key:\n")
         if check_key(key) == False:
-            print("Key is invalid.")
+            tmsg.showinfo("Key is invalid.")
             continue
         if choice == "1" or choice == "2":
             
@@ -116,7 +117,7 @@ def play_Files():
         if choice == "1":
             Encrypt(filename, key)
         if choice == "2":
-            Decrypt(filename, key)
+            Decrypt(filename, attempt = Entry())
             
                       
     # if choice =="3":
