@@ -137,7 +137,7 @@ def play(file):
         else:
             break
         cv2.imshow("Footage", img)
-        cv2.waitKey(30)   
+        cv2.waitKey(28)   
     cv2.destroyAllWindows()     
         
 

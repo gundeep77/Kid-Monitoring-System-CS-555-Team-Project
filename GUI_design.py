@@ -60,7 +60,7 @@ def user_access():
         if login_return == 1:
             if authenticate(code_value.get()):
                 #email_entry.delete(0, "end")
-                pass_entry.delete(0, "end")
+                # pass_entry.delete(0, "end")
                 code_entry.delete(0, "end")
                 
                 return True
@@ -196,7 +196,7 @@ heading_text = Label(heading_frame, text="Welcome to Baby Monitoring System!",
 heading_text.grid()
 
 # sign in
-signin_text = Label(root, text="Please sign in here and fill the verification code\nafter scanning the QR code using Google Authenticator app:", fg="yellow", justify="left")
+signin_text = Label(root, text="Enter your account email address/paassword.\nScan your QR code using Google Authenticator app:    ", fg="black", justify="left")
 signin_text.place(x=320, y=90)
 
 login_frame = Frame(root, borderwidth=6, relief=SUNKEN)
@@ -231,7 +231,7 @@ clear_signin_button = Button(login_frame, text="Access Footage", command=openFil
 clear_signin_button.grid(row=3, column=1)
 
 # signup
-signup_text = Label(root, text="Please sign up here if you don't have an account:", fg="yellow")
+signup_text = Label(root, text="Please sign up here if you don't have an account:         ", fg="black")
 signup_text.place(x=320, y=270)
 signup_frame = Frame(root, borderwidth=6, relief=SUNKEN)
 signup_frame.place(x=320, y=290)
