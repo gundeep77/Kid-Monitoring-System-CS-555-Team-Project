@@ -124,7 +124,6 @@ def play_Files():
                       
 
 def play(file):
-    
     cap = cv2.VideoCapture(file)
     if not cap.isOpened():
         print("Can't receive frame (stream end?). Exiting ...")
@@ -137,8 +136,9 @@ def play(file):
         else:
             break
         cv2.imshow("Footage", img)
-        cv2.waitKey(28)   
-    cv2.destroyAllWindows()     
+        cv2.waitKey(30)  
+    cap.release() 
+    cv2.destroyWindow("Footage")     
         
 
 
