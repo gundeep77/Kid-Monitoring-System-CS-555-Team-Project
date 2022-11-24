@@ -9,7 +9,7 @@ from authenticate import authenticate
 from PIL import Image, ImageTk
 import webbrowser
 import os
-from Encryption import Encrypt,Decrypt,play_Files
+from Encryption import Encrypt,Decrypt,play
 
 root = Tk()
 
@@ -24,16 +24,60 @@ desktop  = os.path.expanduser("~/Desktop")
 db = sqlite3.connect ("userdata.db")
 cursor = db.cursor()
 
+
 def openFile():
-    
-   
-    attempt.get()
-    filepath = filedialog.askopenfilename(initialdir=desktop+"/Baby Camera Footage",
+    """
+    This function will decrypt and open the file in the GUI. Once the file is done 
+    playing the window will close. The file will then be encrypted aand unable to
+    be opened again until the program is ran again.
+    """
+    if user_access():
+        key = get_key(email_input)
+        filepath = filedialog.askopenfilename(initialdir=desktop+"/Baby Camera Footage",
                                           title="Camera Footage",
                                           filetypes= (("all video format", ".mp4",".avi"),
                                           ("all video format", ".avi")))
-    
         
+        
+        Decrypt(filepath, key)
+        play(filepath)
+        Encrypt(filepath,key)
+
+def user_access():
+    """
+    **Description**:
+    
+    Logins the user with given credentials
+    """
+    global email_input
+    if len(email_value.get()) and len(pass_value.get()):
+        email_input = email_value.get()
+        password_input = pass_value.get()
+        
+    
+        login_return = login(email_input, password_input)
+
+        if login_return == 1:
+            if authenticate(code_value.get()):
+                #email_entry.delete(0, "end")
+                pass_entry.delete(0, "end")
+                code_entry.delete(0, "end")
+                
+                return True
+            else: tmsg.showinfo(message="Incorrect verification code! Please try again!")
+    else:
+        tmsg.showinfo(message='Please fill in all the details!')  
+
+def get_key(email_input):
+    """
+    This function will get the user key that is used in the encryption/decryption
+    process and return it. 
+    """
+    cursor.execute("select file_key from credentials where email = ?",(email_input,))
+    file_key = cursor.fetchone()
+    return (file_key[0])
+    
+
 def create_connection(db_file):
     """
     **Description**:
@@ -183,7 +227,7 @@ code_entry.grid(row=2, column=1)
 submit_button = Button(login_frame, text="Start Recording", command=signin_function)
 submit_button.grid(row=3, column=0)
 
-clear_signin_button = Button(login_frame, text="Clear Fields", command=clear_login_fields)
+clear_signin_button = Button(login_frame, text="Access Footage", command=openFile)
 clear_signin_button.grid(row=3, column=1)
 
 # signup
@@ -255,9 +299,4 @@ link_android.place(x=0, y=121)
 link_ios.bind("<Button-1>", lambda e: callback("https://apps.apple.com/us/app/google-authenticator/id388497605"))
 link_android.bind("<Button-1>", lambda e: callback("https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&pli=1"))
 
-key_input = Entry(root)
-footage = Button(text="Access Footage", command=openFile)
-footage.pack()
-attempt = Entry()
-attempt.pack()
 mainloop()

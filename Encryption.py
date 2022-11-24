@@ -9,6 +9,8 @@ import cv2
 import os
 import sys
 import tkinter.messagebox as tmsg
+import numpy as np
+import cv2
 sys.tracebacklimit=None
 # import base64
 # import os
@@ -120,10 +122,23 @@ def play_Files():
             Decrypt(filename, attempt = Entry())
             
                       
-    # if choice =="3":
-    #     cap.release()
-    #     cv2.destroyAllWindows()
-        
+
+def play(file):
+    
+    cap = cv2.VideoCapture(file)
+    if not cap.isOpened():
+        print("Can't receive frame (stream end?). Exiting ...")
+        exit(0)
+
+    while(cap.isOpened()):
+        ret, img = cap.read()
+        if ret:
+            imgin = img[:,:,(0,1,2)]
+        else:
+            break
+        cv2.imshow("Footage", img)
+        cv2.waitKey(30)   
+    cv2.destroyAllWindows()     
         
 
 
