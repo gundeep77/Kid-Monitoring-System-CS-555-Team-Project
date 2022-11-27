@@ -87,7 +87,7 @@ def register_user(email, phoneNumber, password, cfm_password ):
                     db.commit()
 
                     result = searchFile_key(random_key)
-                    tmsg.showinfo(message=f"Account successfully created !\nYour file decryption key is {result}")
+                    tmsg.showinfo(message=f"Account successfully created!\nYour file decryption key is {result}.\nPlease make a note of it!")
                     
                     return 1
                 else: tmsg.showinfo(message="Password should be at least 8 characters long!")

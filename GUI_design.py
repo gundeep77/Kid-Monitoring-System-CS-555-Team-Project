@@ -25,7 +25,7 @@ db = sqlite3.connect ("userdata.db")
 cursor = db.cursor()
 
 
-def openFile():
+def open_file():
     """
     This function will decrypt and open the file in the GUI. Once the file is done 
     playing the window will close. The file will then be encrypted aand unable to
@@ -153,15 +153,6 @@ def clear_signup_fields ():
     pass_signup_entry.delete(0, "end")
     confirm_pass_signup_entry.delete(0, "end")
 
-def clear_login_fields ():
-    """
-    **Description**:
-    
-    Clears the fields for login
-    """
-    email_entry.delete(0, "end")
-    pass_entry.delete(0, "end")
-    code_entry.delete(0, "end")
 
 def about_menu ():
     """
@@ -184,7 +175,7 @@ def callback(url):
     webbrowser.open_new_tab(url)
 
 
-
+# Design
 photo = PhotoImage(file="child_monitor.png")
 bg_label = Label(root, image=photo)
 bg_label.place(x=0, y=0)
@@ -196,7 +187,7 @@ heading_text = Label(heading_frame, text="Welcome to Baby Monitoring System!",
 heading_text.grid()
 
 # sign in
-signin_text = Label(root, text="Enter your account email address/paassword.\nScan your QR code using Google Authenticator app:    ", fg="black", justify="left")
+signin_text = Label(root, text="Enter your account email address/paassword.\nScan your QR code using Google Authenticator app:", fg="coral", justify="left")
 signin_text.place(x=320, y=90)
 
 login_frame = Frame(root, borderwidth=6, relief=SUNKEN)
@@ -224,14 +215,14 @@ pass_entry.grid(row=1, column=1)
 code_entry = Entry(login_frame, textvariable=code_value)
 code_entry.grid(row=2, column=1)
 
-submit_button = Button(login_frame, text="Start Recording", command=signin_function)
+submit_button = Button(login_frame, text="Record", command=signin_function)
 submit_button.grid(row=3, column=0)
 
-clear_signin_button = Button(login_frame, text="Access Footage", command=openFile)
-clear_signin_button.grid(row=3, column=1)
+access_footage_button = Button(login_frame, text="Access Footage", command=open_file)
+access_footage_button.grid(row=3, column=1)
 
 # signup
-signup_text = Label(root, text="Please sign up here if you don't have an account:         ", fg="black")
+signup_text = Label(root, text="Please sign up here if you don't have an account:", fg="coral")
 signup_text.place(x=320, y=270)
 signup_frame = Frame(root, borderwidth=6, relief=SUNKEN)
 signup_frame.place(x=320, y=290)
