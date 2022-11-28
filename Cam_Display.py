@@ -109,7 +109,7 @@ class Camera:
             img_rgb = display
             # img_rgb = cv2.cvtColor(src=img_brg, code=cv2.COLOR_BGR2RGB)
 
-            if ((frame_count % 10) == 0):
+            if ((frame_count % 10) == 0 and (img_rgb is not None)):
 
                 # 2. Prepare image; grayscale and blur
                 prepared_frame = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
