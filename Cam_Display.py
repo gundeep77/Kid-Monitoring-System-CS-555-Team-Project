@@ -189,13 +189,13 @@ class Camera:
                 cursor.execute("select file_key from credentials where email = ?", (currentuseremail,))
                 file_key = cursor.fetchone()
 
-                if  file_key is None:
-                    # file_key is None when there is no active session
-                    break
-                else:
-                    Encrypt(video, file_key[0])
-                #tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
-                    break
+                # if  file_key is None:
+                #     # file_key is None when there is no active session
+                #     break
+                # else:
+                #     # Encrypt(video, file_key[0])
+                # #tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
+                break
             
             # Disabled the live feed temporarily
             elif keypress == 27:
@@ -214,4 +214,7 @@ class Camera:
         
         
         #when we exit the script we can destroy the windows
+        Encrypt(video, file_key[0])
+        cv2.destroyAllWindows()
+        
     cv2.destroyAllWindows()
