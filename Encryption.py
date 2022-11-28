@@ -156,7 +156,7 @@ def play(file):
             # 20 is in milliseconds, try to increase the value, say 50 and observe
             key = cv2.waitKey(20)
             
-            if key == ord('q'):
+            if key == 32:
                 break
         else:
             break
