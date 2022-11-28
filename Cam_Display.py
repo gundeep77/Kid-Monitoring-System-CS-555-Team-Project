@@ -3,7 +3,7 @@ from datetime import datetime
 import cv2
 import tkinter.messagebox as tmsg
 import os
-from Encryption import Encrypt, Decrypt, play_Files
+from Encryption import Encrypt, Decrypt
 import sqlite3
 
 import numpy as np
@@ -215,13 +215,3 @@ class Camera:
         
         #when we exit the script we can destroy the windows
     cv2.destroyAllWindows()
-
-if __name__ == "__main__":
-
-    # add string argument to live feed to avoid system error
-    # Camera().live_feed(0, 'str')
-    # cv2.waitKey(1)
-    # cv2.destroyAllWindows()
-    # for i in range (1,5):
-    #     cv2.waitKey(1)
-    play_Files()   

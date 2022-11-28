@@ -10,6 +10,7 @@ from PIL import Image, ImageTk
 import webbrowser
 import os
 from Encryption import Encrypt,Decrypt,play
+import vlc
 
 root = Tk()
 
@@ -38,10 +39,12 @@ def openFile():
                                           filetypes= (("all video format", ".mp4",".avi"),
                                           ("all video format", ".avi")))
         
-        
-        Decrypt(filepath, key)
-        play(filepath)
-        Encrypt(filepath,key)
+        try:
+            Decrypt(filepath, key)
+            play(filepath)
+            Encrypt(filepath,key)
+        except Exception:
+            print("Error")
 
 def user_access():
     """
