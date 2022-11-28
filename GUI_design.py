@@ -10,7 +10,6 @@ from PIL import Image, ImageTk
 import webbrowser
 import os
 from Encryption import Encrypt,Decrypt,play
-import vlc
 
 root = Tk()
 
@@ -37,7 +36,7 @@ def open_file():
         filepath = filedialog.askopenfilename(initialdir=desktop+"/Baby Camera Footage",
                                           title="Camera Footage",
                                           filetypes= (("all video format", ".mp4",".avi"),
-                                          ("all video format", ".avi")))
+                                          ('image files', '.jpg')))
         
         try:
             Decrypt(filepath, key)

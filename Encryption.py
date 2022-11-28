@@ -5,10 +5,7 @@ Note: Encryption happens automatically when the video recordings ends.
 Decryption requires the user to select the file path name and then enter the key.
 '''
 
-import sqlite3
-import time
 import cv2
-import os
 import sys
 
 import numpy as np
@@ -50,7 +47,7 @@ def Encrypt(filename, key):
         file = open(filename, "wb")
         file.write(data)
         file.close()
-        print("Filed successfully encrypted.")
+        print("File successfully encrypted.")
     except FileNotFoundError:
         print("File does not exist!")
     except ValueError:
@@ -72,7 +69,7 @@ def Decrypt(filename, key):
         file = open(filename, "wb")
         file.write(data)
         file.close()
-        print("Filed successfully decrypted.")
+        print("File successfully decrypted.")
     except FileNotFoundError:
         print("File does not exist!")
     except ValueError:
