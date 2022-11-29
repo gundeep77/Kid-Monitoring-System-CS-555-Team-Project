@@ -86,8 +86,7 @@ def register_user(email, phoneNumber, password, cfm_password ):
                     cursor.execute('''INSERT INTO credentials VALUES (?,?,?,?)''', params)
                     db.commit()
 
-                    result = searchFile_key(random_key)
-                    tmsg.showinfo(message=f"Account successfully created!\nYour file decryption key is {result}.\nPlease make a note of it!")
+                    tmsg.showinfo(message=f"Account successfully created!")
                     
                     return 1
                 else: tmsg.showinfo(message="Password should be at least 8 characters long!")
@@ -138,23 +137,4 @@ def generateFile_key():
     file_key = random.randint(1, 255)
     return file_key
 
-def searchFile_key(file_key):
-    """search for file key in database and return result"""
-    db = sqlite3.connect ("userdata.db")
-    cursor = db.cursor()
-    cursor.execute("select file_key from credentials where file_key = ?", (file_key,))
-    key = cursor.fetchone()
 
-    if key == None:
-
-        print("file key not found")
-    
-    else:
-
-        return key[0]
-
-
-
-
-# drop_table("credentials")
-# show_all_records("credentials")
