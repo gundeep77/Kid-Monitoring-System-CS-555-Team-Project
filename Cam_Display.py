@@ -10,11 +10,8 @@ import numpy as np
 from PIL import ImageGrab
 from logger import Logger
 
-current_time = datetime.now().strftime("%H-%M-%S")
-filename = str(current_time)+'.mp4'
 global  NUMBER
 NUMBER=0
-
 
 #Code to create footage storage folder to user desktop
 desktop  = os.path.expanduser("~/Desktop")
@@ -95,6 +92,8 @@ class Camera:
             feed.set(4,480)
 
         make_480p(feed)
+        current_time = datetime.now().strftime("%H-%M-%S")
+        filename = str(current_time)+'.mp4'
         video = desktop+"/Baby Camera Footage/"+today+"/"+filename
         
         out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc(*'mp4v'), 10, (640,480))
@@ -198,7 +197,7 @@ class Camera:
                     break
                 else:
                     Encrypt(video, file_key[0])
-                tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
+                tmsg.showinfo(message="Footage encrypted and saved in Baby Monitor Footage on Desktop! You can access it by logging in through the app.")
                 break
             
             # Disabled the live feed temporarily
