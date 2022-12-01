@@ -189,12 +189,12 @@ class Camera:
                 cursor.execute("select file_key from credentials where email = ?", (currentuseremail,))
                 file_key = cursor.fetchone()
 
-                # if  file_key is None:
-                #     # file_key is None when there is no active session
-                #     break
-                # else:
-                #     # Encrypt(video, file_key[0])
-                # #tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
+                if  file_key is None:
+                    # file_key is None when there is no active session
+                    break
+                else:
+                    Encrypt(video, file_key[0])
+                tmsg.showinfo(message="Recording finished! You can find the recording where your app is located.")
                 break
             
             # Disabled the live feed temporarily
