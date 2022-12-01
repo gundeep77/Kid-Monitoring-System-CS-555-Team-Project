@@ -8,6 +8,7 @@ import sqlite3
 
 import numpy as np
 from PIL import ImageGrab
+from logger import Logger
 
 current_time = datetime.now().strftime("%H-%M-%S")
 filename = str(current_time)+'.mp4'
@@ -29,6 +30,8 @@ def createFolder(desktop):
     return desktop+"/Baby Camera Footage/"+today+"/"
 createFolder(desktop) 
 
+log_path = os.path.expanduser("~\\Desktop\\Baby Camera Footage\\log.txt")
+log = Logger(log_path)
 
 class Camera:
     """
@@ -158,6 +161,7 @@ class Camera:
                         (x,y,xx,yy) = (xP,y,xx,yy)
                     if (yP < y):
                         (x,y,xx,yy) = (x,yP,xx,yy)
+                    log.log("Movement detected.")
                 
                 # draw one bounding box only if it changes from default
                 if ((x,y,xx,yy) != (640,480,0,0)):

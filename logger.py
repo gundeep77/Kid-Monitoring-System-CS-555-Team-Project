@@ -21,27 +21,4 @@ class Logger:
 
 
 # File path, needs to have a log.txt in there or some file that can be opened.
-desktop  = os.path.expanduser("~\\Desktop\\Baby Camera Footage") + str("\\log.txt")
-l = Logger(desktop)
-
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
-l.log("This is an event")
+# desktop  = os.path.expanduser("~\\Desktop\\Baby Camera Footage") + str("\\log.txt")

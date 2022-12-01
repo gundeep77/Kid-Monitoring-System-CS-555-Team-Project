@@ -11,6 +11,8 @@ import webbrowser
 import os
 from Encryption import Encrypt,Decrypt,play
 
+from logger import Logger
+
 root = Tk()
 
 root.title("Baby Monitoring System")
@@ -19,11 +21,13 @@ window_height = 500
 root.geometry(f"{window_width}x{window_height}")
 root.maxsize(window_width, window_height)
 root.minsize(window_width, window_height)
-desktop  = os.path.expanduser("~/Desktop")
+desktop  = os.path.expanduser("~\\Desktop")
 # establishing db connection
 db = sqlite3.connect ("userdata.db")
 cursor = db.cursor()
 
+log_path = os.path.expanduser("~\\Desktop\\Baby Camera Footage\\log.txt")
+log = Logger(log_path)
 
 def open_file():
     """
@@ -65,8 +69,12 @@ def user_access():
                 # pass_entry.delete(0, "end")
                 code_entry.delete(0, "end")
                 
+                log.log(f"Login successful as {email_input} for user_access")
+
                 return True
-            else: tmsg.showinfo(message="Incorrect verification code! Please try again!")
+            else: 
+                log.log(f"Login failed as {email_input} for user_access")
+                tmsg.showinfo(message="Incorrect verification code! Please try again!")
     else:
         tmsg.showinfo(message='Please fill in all the details!')  
 
@@ -96,8 +104,10 @@ def create_connection(db_file):
     """
     conn = None
     try:
+        log.log(f"Connection established to database.")
         conn = sqlite3.connect(db_file)
     except:
+        log.log(f"Connection failed to database.")
         tmsg.showinfo(message = "Could not establish connection to the database!")
     return conn
 
@@ -110,6 +120,7 @@ def submit_new_user_details():
     if len(email_signup_value.get()) and len(pass_signup_value.get()) and len(phone_number_value.get()) and confirmation_value.get():
         if pass_signup_value.get() == confirm_pass_signup_value.get():
             register_user_return = register_user(email_signup_value.get(), phone_number_value.get(), pass_signup_value.get(), confirm_pass_signup_value.get())
+            log.log(f"New user registered: {email_signup_value.get()}")
             if register_user_return == 1:
                 email_signup_entry.delete(0, "end")
                 phone_number_entry.delete(0, "end")
@@ -135,12 +146,17 @@ def signin_function ():
 
         if login_return == 1:
             if authenticate(code_value.get()):
+                
+                log.log(f"Login successful as {email_input} for record")
+
                 email_entry.delete(0, "end")
                 pass_entry.delete(0, "end")
                 code_entry.delete(0, "end")
                 session = Camera()
                 session.live_feed(NUMBER, email_input)
-            else: tmsg.showinfo(message="Incorrect verification code! Please try again!")
+            else:
+                log.log(f"Login failed as {email_input} for record") 
+                tmsg.showinfo(message="Incorrect verification code! Please try again!")
     else:
         tmsg.showinfo(message='Please fill in all the details!')
 
