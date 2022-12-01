@@ -270,10 +270,10 @@ clear_signup_button.grid(row=8, column=1)
 
 # menubar
 menu_bar = Menu (root)
-options_menu = Menu(menu_bar)
+options_menu = Menu(menu_bar, tearoff=False)
 menu_bar.add_cascade(label = "Options", menu=options_menu)
 options_menu.add_command(label = "About", command=about_menu)
-options_menu.add_command(label = "Exit", command=quit)
+options_menu.add_command(label = "Exit", command=root.destroy)
 root.config(menu=menu_bar)
 
 # qrcode
