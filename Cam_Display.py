@@ -26,7 +26,7 @@ def createFolder(desktop):
     return desktop+"/Baby Camera Footage/"+today+"/"
 createFolder(desktop) 
 
-log_path = os.path.expanduser("~\\Desktop\\Baby Camera Footage\\log.txt")
+log_path = os.path.expanduser(desktop + "/Baby Camera Footage/log.txt")
 log = Logger(log_path)
 
 class Camera:

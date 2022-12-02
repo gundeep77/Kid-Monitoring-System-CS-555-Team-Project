@@ -21,13 +21,13 @@ window_height = 500
 root.geometry(f"{window_width}x{window_height}")
 root.maxsize(window_width, window_height)
 root.minsize(window_width, window_height)
-desktop  = os.path.expanduser("~\\Desktop")
+desktop  = os.path.expanduser("~/Desktop")
 # establishing db connection
 db = sqlite3.connect ("userdata.db")
 cursor = db.cursor()
 
-log_path = os.path.expanduser("~\\Desktop\\Baby Camera Footage\\log.txt")
-log = Logger(log_path)
+log_path = os.path.expanduser(desktop + "\\Baby Camera Footage\\log.txt")
+log = Logger(desktop + "/Baby Camera Footage/log.txt")
 
 def open_file():
     """
