@@ -5,7 +5,6 @@ import tkinter.messagebox as tmsg
 import os
 from Encryption import Encrypt, Decrypt
 import sqlite3
-
 import numpy as np
 from PIL import ImageGrab
 from logger import Logger
@@ -192,11 +191,6 @@ class Camera:
                 cursor.execute("select file_key from credentials where email = ?", (currentuseremail,))
                 file_key = cursor.fetchone()
 
-                if  file_key is None:
-                    # file_key is None when there is no active session
-                    break
-                else:
-                    Encrypt(video, file_key[0])
                 tmsg.showinfo(message="Footage encrypted and saved in Baby Monitor Footage on Desktop! You can access it by logging in through the app.")
                 break
             
